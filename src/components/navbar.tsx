@@ -32,11 +32,12 @@ import { ShoppingCart, UserIcon } from "lucide-react";
 export default function Navbar() {
   return (
     <>
-      <nav className="bg-gray-400 shadow text-2xl font-semibold py-4">
+      <nav className="bg-gray-100 shadow text-2xl font-semibold py-4">
         <div className="container mx-auto ">
           <div className="flex items-center justify-between">
             <Link href="/">
-              <h1>Shop Mart</h1>
+            <span className="rounded-lg bg-black text-white px-3 py-0.5 absolute">S</span>
+               <h1 className="relative -end-11 -bottom-1 font-extrabold">Shop Mart</h1>
             </Link>
 
             <NavigationMenu>
@@ -46,16 +47,15 @@ export default function Navbar() {
                     <Link href="/products">Products</Link>
                   </NavigationMenuLink>
                 </NavigationMenuItem>
-
                 <NavigationMenuItem>
                   <NavigationMenuLink asChild>
-                    <Link href="/categories">Categories</Link>
+                    <Link href="/brands">Brands</Link>
                   </NavigationMenuLink>
                 </NavigationMenuItem>
 
                 <NavigationMenuItem>
                   <NavigationMenuLink asChild>
-                    <Link href="/brands">brands</Link>
+                    <Link href="/categories">Categories</Link>
                   </NavigationMenuLink>
                 </NavigationMenuItem>
               </NavigationMenuList>
