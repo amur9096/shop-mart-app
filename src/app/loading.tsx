@@ -6,7 +6,7 @@ export default function Loading() {
     <>
       <div className="min-h-screen flex justify-center items-center">
         <h1>
-          Loading... <Loader />
+          Loading... <Loader className="animate-spin" />
         </h1>
       </div>
     </>
