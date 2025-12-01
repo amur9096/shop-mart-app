@@ -14,6 +14,7 @@ import Image from "next/image";
 import MyStarIcon from "@/components/myStar/myStarIcon";
 import { Button } from "@/components/ui/button";
 import { HeartIcon } from "lucide-react";
+import Link from "next/link";
 
 export default async function Products() {
   const res = await fetch("https://ecommerce.routemisr.com/api/v1/products");
@@ -26,32 +27,35 @@ export default async function Products() {
         {products.map((product) => (
           <div key={product.id}>
             <Card>
-              <CardHeader>
-                <Image
-                  src={product.imageCover}
-                  alt=""
-                  width={300}
-                  height={300}
-                  className="w-full"
-                />
-                <CardTitle>{product.title.split(" ", 2).join(" ")}</CardTitle>
-                <CardDescription>{product.category.name}</CardDescription>
-                <CardDescription>{product.brand.name}</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="flex items-center">
-                  <MyStarIcon />
-                  <MyStarIcon />
-                  <MyStarIcon />
-                  <MyStarIcon />
+              <Link href={"/products/" + product.id}>
+                <CardHeader>
+                  <Image
+                    src={product.imageCover}
+                    alt=""
+                    width={300}
+                    height={300}
+                    className="w-full"
+                  />
+                  <CardTitle>{product.title.split(" ", 2).join(" ")}</CardTitle>
+                  <CardDescription>{product.category.name}</CardDescription>
+                  <CardDescription>{product.brand.name}</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="flex items-center">
+                    <MyStarIcon />
+                    <MyStarIcon />
+                    <MyStarIcon />
+                    <MyStarIcon />
 
-                  <p>{product.ratingsAverage}</p>
-                </div>
-                <p className="mt-2">
-                  Price: <span className="font-semibold">{product.price} </span>
-                  EGP
-                </p>
-              </CardContent>
+                    <p>{product.ratingsAverage}</p>
+                  </div>
+                  <p className="mt-2">
+                    Price:{" "}
+                    <span className="font-semibold">{product.price} </span>
+                    EGP
+                  </p>
+                </CardContent>
+              </Link>
               <CardFooter className="gap-2">
                 <Button className="grow">Add To Cart</Button>
                 <HeartIcon />
