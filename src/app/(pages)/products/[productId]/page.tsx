@@ -17,6 +17,7 @@ import MyStarIcon from "@/components/myStar/myStarIcon";
 import { Button } from "@/components/ui/button";
 import { HeartIcon } from "lucide-react";
 import Slider from "@/components/productSlider/Slider";
+import AddToCart from "@/components/addToCart/page";
 
 export default async function ProductDetails({ params }: { params: Params }) {
   let { productId } = await params;
@@ -56,10 +57,7 @@ export default async function ProductDetails({ params }: { params: Params }) {
             </div>
           </CardContent>
 
-          <CardFooter className="gap-2 mt-3">
-            <Button className="grow">Add To Cart</Button>
-            <HeartIcon />
-          </CardFooter>
+     <AddToCart productId={product.id} />
         </div>
       </Card>
     </>
