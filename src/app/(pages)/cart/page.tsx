@@ -21,7 +21,10 @@ export default function Cart() {
           <div className=" grid grid-cols-1 lg:grid-cols-3 gap-6 lg:items-start mt-6">
             <div className="lg:col-span-2 space-y-4">
               {cartData?.data.products.map((item) => (
-                <div key={item._id} className="flex gap-4 rounded-xl border p-4 shadow-sm bg-card">
+                <div
+                  key={item._id}
+                  className="flex gap-4 rounded-xl border p-4 shadow-sm bg-card"
+                >
                   <Image
                     src={item.product.imageCover}
                     alt={item.product.title}
@@ -37,7 +40,7 @@ export default function Cart() {
                         </h3>
                         <p className="text-sm text-muted-foreground mt-1 ">
                           {item.product.brand.name}
-                           {item.product.category.name}
+                          {item.product.category.name}
                         </p>
                       </div>
 
@@ -57,7 +60,7 @@ export default function Cart() {
                       </button>
                       <span className="w-6 text-center font-medium">
                         {item.count}
-                        </span>
+                      </span>
                       <button
                         aria-label="increase"
                         className="size-8 rounded-lg border hover:bg-accent"
@@ -84,12 +87,13 @@ export default function Cart() {
                     <span className="text-sm text-muted-foreground ">
                       Subtotal : {cartData?.numOfCartItems} items
                     </span>
-                    <span className="font-semibold ">Total Price : {cartData?.data.totalCartPrice} EGP</span>
+                    <span className="font-semibold ">
+                      Total Price : {cartData?.data.totalCartPrice} EGP
+                    </span>
                   </div>
 
                   <div className="flex items-center justify-between ">
                     <span className="text-sm text-muted-foreground">
-
                       Shipping
                     </span>
 
@@ -99,7 +103,10 @@ export default function Cart() {
                   <div className="my-4 border-t">
                     <div className="flex items-center justify-between">
                       <span className="font-semibold"> Total</span>
-                      <span className="font-bold text-lg "> {cartData?.data.totalCartPrice} EGP</span>
+                      <span className="font-bold text-lg ">
+                        {" "}
+                        {cartData?.data.totalCartPrice} EGP
+                      </span>
                     </div>
                     <Button className="w-full mt-4 text-lg">
                       Proceed To Checkout
