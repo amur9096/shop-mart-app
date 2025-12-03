@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import Navbar from "@/components/navbar/navbar";
 import { Toaster } from "react-hot-toast";
 import CartContextProvider from "../components/context/cartContext";
-import Footer from "../components/footer/footer";
+import Footer from "../components/footer/Footer";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
