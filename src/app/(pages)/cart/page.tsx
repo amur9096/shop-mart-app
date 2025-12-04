@@ -1,5 +1,6 @@
 "use client";
 import Loading from "@/app/loading";
+import CheckOut from "@/components/checkOut/checkOut";
 import { cartContext } from "@/components/context/cartContext";
 import { Button } from "@/components/ui/button";
 import { CartResponse } from "@/interfaces";
@@ -221,9 +222,7 @@ export default function Cart() {
                     >
                       Continue Shopping
                     </Button>
-                    <Button className="h-11 w-full rounded-lg bg-slate-900 text-sm font-semibold text-white hover:bg-slate-800">
-                      Proceed to Checkout
-                    </Button>
+                    <CheckOut cartId={cartData?.cartId!} />
                   </div>
                 </div>
 
