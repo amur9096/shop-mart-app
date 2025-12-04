@@ -2,17 +2,96 @@
 import Loading from "@/app/loading";
 import { cartContext } from "@/components/context/cartContext";
 import { Button } from "@/components/ui/button";
-import { Trash2 } from "lucide-react";
+import { CartResponse } from "@/interfaces";
+import { Loader2, Trash2 } from "lucide-react";
 import Image from "next/image";
-import React, { useContext } from "react";
+import Link from "next/link";
+import React, { useContext, useState } from "react";
+import toast from "react-hot-toast";
 
 export default function Cart() {
-  let { cartData, isLoading } = useContext(cartContext);
+  const { cartData, isLoading, getCart, setCartData } = useContext(cartContext);
+  const [removingId, setRemovingId] = useState<null | string>(null);
+  const [updatingId, setUpdatingId] = useState<null | string>(null);
+  const [isClearing, setIsClearing] = useState<boolean>(false);
+  if (
+    typeof cartData?.data.products[0]?.product == "string" ||
+    cartData == null
+  ) {
+    getCart();
+  }
+
+  // delete item from cart
+  async function removeCartItem(productId: string) {
+    setRemovingId(productId);
+    const res = await fetch(
+      "https://ecommerce.routemisr.com/api/v1/cart/" + productId,
+      {
+        method: "DELETE",
+        headers: {
+          token:
+            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5MmQ3OGZjODRkOTUwYzkwMjNiZjNlZiIsIm5hbWUiOiJBbXIgS2hhbGVkIiwicm9sZSI6InVzZXIiLCJpYXQiOjE3NjQ1ODc4MzksImV4cCI6MTc3MjM2MzgzOX0.Cs-fiVZOwN1YrnNs6l19XTDKDasaZ_BYS7yBTIgihwU",
+        },
+      }
+    );
+    const data: CartResponse = await res.json();
+    console.log(data);
+    if (data.status == "success") {
+      toast.success("Item removed from cart");
+      setCartData(data);
+    }
+    setRemovingId(null);
+  }
+  // update quantity
+  async function updateItemQuantity(productId: string, count: number) {
+    setUpdatingId(productId);
+    const res = await fetch(
+      "https://ecommerce.routemisr.com/api/v1/cart/" + productId,
+      {
+        method: "PUT",
+        body: JSON.stringify({ count }),
+        headers: {
+          token:
+            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5MmQ3OGZjODRkOTUwYzkwMjNiZjNlZiIsIm5hbWUiOiJBbXIgS2hhbGVkIiwicm9sZSI6InVzZXIiLCJpYXQiOjE3NjQ1ODc4MzksImV4cCI6MTc3MjM2MzgzOX0.Cs-fiVZOwN1YrnNs6l19XTDKDasaZ_BYS7yBTIgihwU",
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    const data: CartResponse = await res.json();
+    console.log(data);
+
+    if (data.status == "success") {
+      toast.success("Product quantity updated successfully");
+      setCartData(data);
+    }
+    setUpdatingId(null);
+  }
+  // clear Cart
+  async function clearCart() {
+    setIsClearing(true);
+    const res = await fetch("https://ecommerce.routemisr.com/api/v1/cart/", {
+      method: "DELETE",
+      headers: {
+        token:
+          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5MmQ3OGZjODRkOTUwYzkwMjNiZjNlZiIsIm5hbWUiOiJBbXIgS2hhbGVkIiwicm9sZSI6InVzZXIiLCJpYXQiOjE3NjQ1ODc4MzksImV4cCI6MTc3MjM2MzgzOX0.Cs-fiVZOwN1YrnNs6l19XTDKDasaZ_BYS7yBTIgihwU",
+      },
+    });
+    const data: CartResponse = await res.json();
+    console.log(data);
+
+    if (data.message == "success") {
+      // toast.success("Item removed from cart");
+      setCartData(null);
+    }
+    setIsClearing(false);
+  }
+
   return (
     <>
-      {isLoading ? (
+      {isLoading ||
+      (typeof cartData?.data.products[0] == "string" && getCart()) ? (
         <Loading />
-      ) : (
+      ) : cartData?.numOfCartItems! > 0 ? (
         <section className="bg-white">
           <div className="container mx-auto px-4 py-10">
             <h1 className="text-3xl font-bold tracking-tight text-slate-900">
@@ -46,8 +125,8 @@ export default function Cart() {
                             {item.product.title}
                           </h3>
                           <p className="text-sm text-slate-500">
-                            {item.product.brand.name} •{" "}
-                            {item.product.category.name}
+                            {item.product?.brand?.name ?? "Brand"} •{" "}
+                            {item.product?.category?.name ?? "Category"}
                           </p>
                         </div>
                         <div className="text-right text-sm text-slate-600">
@@ -61,23 +140,46 @@ export default function Cart() {
                       <div className="mt-2 flex items-center justify-between">
                         <div className="flex items-center gap-3">
                           <button
+                            disabled={item.count == 1}
                             aria-label="decrease"
                             className="flex size-9 items-center justify-center rounded-full border border-slate-300 text-lg font-semibold text-slate-700 transition hover:bg-slate-50"
+                            onClick={() =>
+                              updateItemQuantity(
+                                item.product._id,
+                                item.count - 1
+                              )
+                            }
                           >
-                            –
+                            -
                           </button>
                           <span className="min-w-6 text-center text-base font-semibold text-slate-900">
-                            {item.count}
+                            {updatingId == item.product._id ? (
+                              <Loader2 className=" animate-spin inline-block " />
+                            ) : (
+                              item.count
+                            )}
                           </span>
                           <button
                             aria-label="increase"
+                            onClick={() =>
+                              updateItemQuantity(
+                                item.product._id,
+                                item.count + 1
+                              )
+                            }
                             className="flex size-9 items-center justify-center rounded-full border border-slate-300 text-lg font-semibold text-slate-700 transition hover:bg-slate-50"
                           >
                             +
                           </button>
                         </div>
 
-                        <button className="text-sm font-medium text-red-500 transition hover:text-red-600 hover:underline cursor-pointer">
+                        <button
+                          onClick={() => removeCartItem(item.product._id)}
+                          className="text-sm font-medium text-red-500 transition hover:text-red-600 hover:underline cursor-pointer"
+                        >
+                          {removingId == item.product._id && (
+                            <Loader2 className=" animate-spin inline-block mr-1 " />
+                          )}
                           Remove
                         </button>
                       </div>
@@ -128,15 +230,36 @@ export default function Cart() {
                 <div className="mt-4 flex justify-end">
                   <Button
                     variant="outline"
+                    onClick={clearCart}
                     className="flex items-center gap-2 rounded-full border-2 border-red-200 bg-white px-4 py-2 text-sm font-semibold text-red-500 hover:bg-red-50"
                   >
-                    <Trash2 className="size-4" /> clear cart
+                    {isClearing ? (
+                      <Loader2 className=" animate-spin inline-block mr-1 " />
+                    ) : (
+                      <Trash2 className="size-4" />
+                    )}
+                    clear cart
                   </Button>
                 </div>
               </div>
             </div>
           </div>
         </section>
+      ) : (
+        <div className="flex flex-col items-center justify-center h-screen gap-4">
+          <h2 className="text-2xl font-semibold text-slate-900">
+            Your cart is empty
+          </h2>
+          <p className="text-sm text-slate-500">
+            Looks like you haven't added anything to your cart yet.
+          </p>
+
+          <Link href="/products">
+            <Button className="mt-2 rounded-lg bg-slate-900 px-5 text-sm font-semibold text-white hover:bg-slate-800">
+              Add Products To Cart
+            </Button>
+          </Link>
+        </div>
       )}
     </>
   );

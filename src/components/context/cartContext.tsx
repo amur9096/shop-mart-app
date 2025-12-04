@@ -7,11 +7,13 @@ export const cartContext = createContext<{
   setCartData: (value: CartResponse | null) => void;
   isLoading: boolean;
   setIsLoading: (value: boolean) => void;
+  getCart: () => void;
 }>({
   cartData: null,
   setCartData: () => {},
   isLoading: false,
   setIsLoading: () => {},
+  getCart: () => {},
 });
 
 export default function cartContextProvider({
@@ -42,7 +44,7 @@ export default function cartContextProvider({
   }, []);
   return (
     <cartContext.Provider
-      value={{ cartData, setCartData, isLoading, setIsLoading }}
+      value={{ cartData, setCartData, isLoading, setIsLoading , getCart}}
     >
       {children}
     </cartContext.Provider>

@@ -1,12 +1,14 @@
 "use client";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { CardFooter } from "../ui/card";
 import { Button } from "../ui/button";
 import { HeartIcon, Loader } from "lucide-react";
 import toast from "react-hot-toast";
+import { cartContext } from "../context/cartContext";
 
 export default function AddToCart({ productId }: { productId: string }) {
-    const [isLoading, setIsLoading] = useState(false);
+  const { getCart, setCartData } = useContext(cartContext);
+  const [isLoading, setIsLoading] = useState(false);
   async function addProduct() {
     setIsLoading(true);
     const res = await fetch("https://ecommerce.routemisr.com/api/v1/cart", {
@@ -19,9 +21,11 @@ export default function AddToCart({ productId }: { productId: string }) {
       },
     });
     const data = await res.json();
-    data.status === 'success' && toast.success("Product added to cart successfully");
+    data.status === "success" &&
+      toast.success("Product added to cart successfully");
     console.log(data);
     setIsLoading(false);
+    setCartData(data);
   }
   return (
     <>

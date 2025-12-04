@@ -1,5 +1,5 @@
 "use client";
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -31,8 +31,10 @@ import Link from "next/link";
 import { Loader, Loader2, ShoppingCart, UserIcon } from "lucide-react";
 import { cartContext } from "../context/cartContext";
 
+
 export default function Navbar() {
-  const { cartData, isLoading } = useContext(cartContext);
+  const { cartData, isLoading, setCartData } = useContext(cartContext);
+
   return (
     <>
       <nav className="bg-gray-100 shadow text-2xl font-semibold py-4">
@@ -96,7 +98,7 @@ export default function Navbar() {
                 <Link href="/cart" className="cursor-pointer">
                   <ShoppingCart />
                   <Badge className="h-5 min-w-5 rounded-full px-1 font-mono  absolute -top-3 -end-3">
-                    {isLoading?<Loader2 className="animate-spin" />: cartData?.numOfCartItems}
+                    {isLoading ?<Loader2 className="animate-spin" />: cartData?.numOfCartItems}
                   </Badge>
                 </Link>
               </div>
