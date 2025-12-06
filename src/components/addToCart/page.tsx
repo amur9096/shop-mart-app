@@ -5,22 +5,14 @@ import { Button } from "../ui/button";
 import { HeartIcon, Loader } from "lucide-react";
 import toast from "react-hot-toast";
 import { cartContext } from "../context/cartContext";
+import { addToCartAction } from "@/app/(pages)/products/_action/addToCart.action";
 
 export default function AddToCart({ productId }: { productId: string }) {
   const { getCart, setCartData } = useContext(cartContext);
   const [isLoading, setIsLoading] = useState(false);
   async function addProduct() {
     setIsLoading(true);
-    const res = await fetch("https://ecommerce.routemisr.com/api/v1/cart", {
-      method: "POST",
-      body: JSON.stringify({ productId: productId, quantity: 1 }),
-      headers: {
-        token:
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5MmQ3OGZjODRkOTUwYzkwMjNiZjNlZiIsIm5hbWUiOiJBbXIgS2hhbGVkIiwicm9sZSI6InVzZXIiLCJpYXQiOjE3NjQ1ODc4MzksImV4cCI6MTc3MjM2MzgzOX0.Cs-fiVZOwN1YrnNs6l19XTDKDasaZ_BYS7yBTIgihwU",
-        "Content-Type": "application/json",
-      },
-    });
-    const data = await res.json();
+const data =await addToCartAction(productId);
     data.status === "success" &&
       toast.success("Product added to cart successfully");
     console.log(data);
