@@ -16,7 +16,7 @@ const handler = NextAuth({
       },
       authorize: async (credentials) => {
         const res = await fetch(
-          "https://ecommerce.routemisr.com/api/v1/auth/login",
+          "https://ecommerce.routemisr.com/api/v1/auth/signin",
           {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -46,17 +46,23 @@ const handler = NextAuth({
     jwt: ({ token, user }) => {
       //token -> next Auth
       // user-> payload
-    if (user) {
+      if (user) {
         token.user = user.user;
         token.token = user.token;
       }
       return token; // token {user, token}
     },
     session: ({ session, token }) => {
-        session.user = token.user
+      session.user = token.user;
       return session;
     },
   },
+
+  pages: {
+    signIn: "/login",
+    error: "/login",
+  },
+
 });
 
 export { handler as GET, handler as POST };

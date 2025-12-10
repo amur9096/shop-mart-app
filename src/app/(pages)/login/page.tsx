@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -18,6 +18,7 @@ import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
 import { signIn } from "next-auth/react";
 import { useSearchParams } from "next/navigation";
+import { Loader2 } from "lucide-react";
 
 const formSchema = z.object({
   email: z
@@ -40,7 +41,8 @@ const formSchema = z.object({
 type FormValues = z.infer<typeof formSchema>;
 
 export default function Login() {
-  let searchParams = useSearchParams()
+  const [isLoading, setIsLoading] = useState(false);
+  const searchParams =  useSearchParams()
   console.log(searchParams.get('error'));
 
 
@@ -52,24 +54,26 @@ export default function Login() {
     },
   });
 
+
   async function onSubmit(values: FormValues) {
+    setIsLoading(true);
     const res = await signIn('credentials', {
       email: values.email,
       password: values.password,
       redirect: true,
       callbackUrl: "/",
     });
-    console.log(values);
+    setIsLoading(false);
+    console.log(res);
   }
 
   return (
     <>
-      <div className="flex flex-col justify-center items-center min-h-[75vh]">
+      <div className="flex flex-col justify-center items-center min-h-[75vh] bg-gray-100">
         <h1 className="text-4xl font-bold mb-8">Login Page</h1>
 
         <Card className="p-5 w-full max-w-md">
           <Form {...form}>
-            {searchParams.get('error') && <p className="text-red-500">{searchParams.get('error')}</p>}
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
               <FormField
                 control={form.control}
@@ -106,8 +110,10 @@ export default function Login() {
               />
 
               <Button className="w-full cursor-pointer " type="submit">
+                {isLoading && <Loader2 className="animate-spin"/>}
                 Submit
               </Button>
+              {searchParams.get('error') && <p className="text-red-500 text-center">{searchParams.get('error')}</p>}
             </form>
           </Form>
         </Card>
