@@ -41,6 +41,22 @@ const handler = NextAuth({
       },
     }),
   ],
+
+  callbacks: {
+    jwt: ({ token, user }) => {
+      //token -> next Auth
+      // user-> payload
+    if (user) {
+        token.user = user.user;
+        token.token = user.token;
+      }
+      return token; // token {user, token}
+    },
+    session: ({ session, token }) => {
+        session.user = token.user
+      return session;
+    },
+  },
 });
 
 export { handler as GET, handler as POST };
