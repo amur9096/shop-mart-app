@@ -8,7 +8,7 @@ export default function Home() {
       <section className="flex min-h-[70vh] items-center justify-center bg-white">
         <div className="mx-auto flex max-w-4xl flex-col items-center gap-6 px-6 text-center sm:px-8">
           <p className="text-lg font-semibold text-slate-800">
-            Hi {userName}
+            {/* Hi {userName} */}
           </p>
           <h1 className="text-4xl font-extrabold tracking-tight text-slate-900 sm:text-5xl lg:text-6xl">
             Welcome to ShopMart
