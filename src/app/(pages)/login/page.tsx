@@ -42,9 +42,8 @@ type FormValues = z.infer<typeof formSchema>;
 
 export default function Login() {
   const [isLoading, setIsLoading] = useState(false);
-  const searchParams =  useSearchParams()
-  console.log(searchParams.get('error'));
-
+  const searchParams = useSearchParams();
+  console.log(searchParams.get("error"));
 
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
@@ -54,10 +53,9 @@ export default function Login() {
     },
   });
 
-
   async function onSubmit(values: FormValues) {
     setIsLoading(true);
-    const res = await signIn('credentials', {
+    const res = await signIn("credentials", {
       email: values.email,
       password: values.password,
       redirect: true,
@@ -110,10 +108,14 @@ export default function Login() {
               />
 
               <Button className="w-full cursor-pointer " type="submit">
-                {isLoading && <Loader2 className="animate-spin"/>}
+                {isLoading && <Loader2 className="animate-spin" />}
                 Submit
               </Button>
-              {searchParams.get('error') && <p className="text-red-500 text-center">{searchParams.get('error')}</p>}
+              {searchParams.get("error") && (
+                <p className="text-red-500 text-center">
+                  {searchParams.get("error")}
+                </p>
+              )}
             </form>
           </Form>
         </Card>
