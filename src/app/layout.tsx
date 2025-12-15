@@ -4,6 +4,7 @@ import "./globals.css";
 import Navbar from "@/components/navbar/navbar";
 import Footer from "../components/footer/Footer";
 import Providers from "@/components/providers";
+import MySessionProvider from "@/components/MySessionProvider/MySessionProvider";
 
 export const metadata: Metadata = {
   title: "ShopMart App",
@@ -18,11 +19,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="antialiased">
-        <Providers>
-          <Navbar />
-          <div className="container mx-auto py-4">{children}</div>
-        </Providers>
-        <Footer />
+        <MySessionProvider>
+          <Providers>
+            <Navbar />
+            <div className="container mx-auto py-4">{children}</div>
+          </Providers>
+          <Footer />
+        </MySessionProvider>
       </body>
     </html>
   );
