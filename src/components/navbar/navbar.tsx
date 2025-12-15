@@ -20,14 +20,12 @@ import {
 import Link from "next/link";
 import { Loader, Loader2, ShoppingCart, UserIcon } from "lucide-react";
 import { cartContext } from "../context/cartContext";
-import { useSession } from "next-auth/react";
-
+import { signOut, useSession } from "next-auth/react";
 
 export default function Navbar() {
   const { cartData, isLoading, setCartData } = useContext(cartContext);
-  const session = useSession()
+  const session = useSession();
   console.log(session);
-
 
   return (
     <>
@@ -65,6 +63,7 @@ export default function Navbar() {
             </NavigationMenu>
 
             <div className="flex items-center gap-4 ">
+
               <DropdownMenu>
                 <DropdownMenuTrigger>
                   <UserIcon />
@@ -75,27 +74,42 @@ export default function Navbar() {
 
                   <DropdownMenuSeparator />
 
-                  <Link href="/profile ">
-                    <DropdownMenuItem>Profile </DropdownMenuItem>
-                  </Link>
-                  <Link href="/login ">
-                    <DropdownMenuItem>Login </DropdownMenuItem>
-                  </Link>
-                  <Link href="/register ">
-                    <DropdownMenuItem>Register </DropdownMenuItem>
-                  </Link>
-
-                  <DropdownMenuItem>Logout</DropdownMenuItem>
+                  {session.status == "authenticated" ? (
+                    <>
+                      <Link href="/profile ">
+                        <DropdownMenuItem>Profile </DropdownMenuItem>
+                      </Link>
+                      <DropdownMenuItem onClick={()=> signOut({
+                        callbackUrl:'/'
+                      }) }>Logout</DropdownMenuItem>
+                    </>
+                  ) : (
+                    <>
+                      <Link href="/login ">
+                        <DropdownMenuItem>Login </DropdownMenuItem>
+                      </Link>
+                      <Link href="/register ">
+                        <DropdownMenuItem>Register </DropdownMenuItem>
+                      </Link>
+                    </>
+                  )}
                 </DropdownMenuContent>
               </DropdownMenu>
-              <div className="relative">
-                <Link href="/cart" className="cursor-pointer">
-                  <ShoppingCart />
-                  <Badge className="h-5 min-w-5 rounded-full px-1 font-mono  absolute -top-3 -end-3">
-                    {isLoading ?<Loader2 className="animate-spin" />: cartData?.numOfCartItems}
-                  </Badge>
-                </Link>
-              </div>
+
+              {session.status == "authenticated" && (
+                <div className="relative">
+                  <Link href="/cart" className="cursor-pointer">
+                    <ShoppingCart />
+                    <Badge className="h-5 min-w-5 rounded-full px-1 font-mono  absolute -top-3 -end-3">
+                      {isLoading ? (
+                        <Loader2 className="animate-spin" />
+                      ) : (
+                        cartData?.numOfCartItems
+                      )}
+                    </Badge>
+                  </Link>
+                </div>
+              )}
             </div>
           </div>
         </div>

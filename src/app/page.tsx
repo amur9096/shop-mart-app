@@ -1,14 +1,18 @@
+"use client";
 import { Button } from "@/components/ui/button";
+import { useSession } from "next-auth/react";
 
 export default function Home() {
-  const userName = "Amr Khalid";
+  const session = useSession();
 
   return (
     <>
       <section className="flex min-h-[70vh] items-center justify-center bg-white">
         <div className="mx-auto flex max-w-4xl flex-col items-center gap-6 px-6 text-center sm:px-8">
           <p className="text-lg font-semibold text-slate-800">
-            {/* Hi {userName} */}
+            {session.status === "authenticated"
+              ? `Welcome back, ${session.data.user?.name}!`
+              : "Welcome to our store!"}
           </p>
           <h1 className="text-4xl font-extrabold tracking-tight text-slate-900 sm:text-5xl lg:text-6xl">
             Welcome to ShopMart

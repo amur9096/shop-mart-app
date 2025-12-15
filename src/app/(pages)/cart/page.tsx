@@ -1,4 +1,5 @@
 "use client";
+import { getUserToken } from "@/app/Helpers/getUserToken";
 import Loading from "@/app/loading";
 import CheckOut from "@/components/checkOut/checkOut";
 import { cartContext } from "@/components/context/cartContext";
@@ -24,14 +25,14 @@ export default function Cart() {
 
   // delete item from cart
   async function removeCartItem(productId: string) {
+    const token = await getUserToken();
     setRemovingId(productId);
     const res = await fetch(
       "https://ecommerce.routemisr.com/api/v1/cart/" + productId,
       {
         method: "DELETE",
         headers: {
-          token:
-            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5MmQ3OGZjODRkOTUwYzkwMjNiZjNlZiIsIm5hbWUiOiJBbXIgS2hhbGVkIiwicm9sZSI6InVzZXIiLCJpYXQiOjE3NjQ1ODc4MzksImV4cCI6MTc3MjM2MzgzOX0.Cs-fiVZOwN1YrnNs6l19XTDKDasaZ_BYS7yBTIgihwU",
+          token: token,
         },
       }
     );
@@ -45,6 +46,7 @@ export default function Cart() {
   }
   // update quantity
   async function updateItemQuantity(productId: string, count: number) {
+    const token = await getUserToken();
     setUpdatingId(productId);
     const res = await fetch(
       "https://ecommerce.routemisr.com/api/v1/cart/" + productId,
@@ -52,8 +54,7 @@ export default function Cart() {
         method: "PUT",
         body: JSON.stringify({ count }),
         headers: {
-          token:
-            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5MmQ3OGZjODRkOTUwYzkwMjNiZjNlZiIsIm5hbWUiOiJBbXIgS2hhbGVkIiwicm9sZSI6InVzZXIiLCJpYXQiOjE3NjQ1ODc4MzksImV4cCI6MTc3MjM2MzgzOX0.Cs-fiVZOwN1YrnNs6l19XTDKDasaZ_BYS7yBTIgihwU",
+          token: token,
           "Content-Type": "application/json",
         },
       }
@@ -69,12 +70,14 @@ export default function Cart() {
   }
   // clear Cart
   async function clearCart() {
+    const token = await getUserToken();
+
     setIsClearing(true);
     const res = await fetch("https://ecommerce.routemisr.com/api/v1/cart/", {
       method: "DELETE",
       headers: {
-        token:
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5MmQ3OGZjODRkOTUwYzkwMjNiZjNlZiIsIm5hbWUiOiJBbXIgS2hhbGVkIiwicm9sZSI6InVzZXIiLCJpYXQiOjE3NjQ1ODc4MzksImV4cCI6MTc3MjM2MzgzOX0.Cs-fiVZOwN1YrnNs6l19XTDKDasaZ_BYS7yBTIgihwU",
+        token: token,
+        "Content-Type": "application/json",
       },
     });
     const data: CartResponse = await res.json();
