@@ -2,9 +2,8 @@ import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import "./globals.css";
 import Navbar from "@/components/navbar/navbar";
-import { Toaster } from "react-hot-toast";
-import CartContextProvider from "../components/context/cartContext";
 import Footer from "../components/footer/Footer";
+import Providers from "@/components/providers";
 
 export const metadata: Metadata = {
   title: "ShopMart App",
@@ -19,13 +18,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="antialiased">
-        <CartContextProvider>
+        <Providers>
           <Navbar />
-          <div className="container mx-auto py-4">
-            {children}
-            <Toaster />
-          </div>
-        </CartContextProvider>
+          <div className="container mx-auto py-4">{children}</div>
+        </Providers>
         <Footer />
       </body>
     </html>

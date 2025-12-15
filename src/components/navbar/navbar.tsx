@@ -2,13 +2,9 @@
 import React, { useContext, useState } from "react";
 import {
   NavigationMenu,
-  NavigationMenuContent,
-  NavigationMenuIndicator,
   NavigationMenuItem,
   NavigationMenuLink,
   NavigationMenuList,
-  NavigationMenuTrigger,
-  NavigationMenuViewport,
 } from "@/components/ui/navigation-menu";
 import { Badge } from "@/components/ui/badge";
 
@@ -16,24 +12,22 @@ import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuLabel,
-  DropdownMenuPortal,
   DropdownMenuSeparator,
-  DropdownMenuShortcut,
-  DropdownMenuSub,
-  DropdownMenuSubContent,
-  DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import Link from "next/link";
 import { Loader, Loader2, ShoppingCart, UserIcon } from "lucide-react";
 import { cartContext } from "../context/cartContext";
+import { useSession } from "next-auth/react";
 
 
 export default function Navbar() {
   const { cartData, isLoading, setCartData } = useContext(cartContext);
+  const session = useSession()
+  console.log(session);
+
 
   return (
     <>

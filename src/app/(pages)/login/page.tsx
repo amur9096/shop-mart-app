@@ -8,7 +8,6 @@ import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -67,7 +66,7 @@ export default function Login() {
 
   return (
     <>
-      <div className="flex flex-col justify-center items-center min-h-[75vh] bg-gray-100">
+      <div className="flex flex-col justify-center items-center min-h-[75vh] ">
         <h1 className="text-4xl font-bold mb-8">Login Page</h1>
 
         <Card className="p-5 w-full max-w-md">
@@ -80,7 +79,7 @@ export default function Login() {
                   <FormItem>
                     <FormLabel>Email</FormLabel>
                     <FormControl>
-                      <Input placeholder="Amr@example.com" {...field} />
+                      <Input placeholder="Name@example.com" {...field} />
                     </FormControl>
 
                     <FormMessage />
@@ -111,6 +110,7 @@ export default function Login() {
                 {isLoading && <Loader2 className="animate-spin" />}
                 Submit
               </Button>
+
               {searchParams.get("error") && (
                 <p className="text-red-500 text-center">
                   {searchParams.get("error")}
@@ -123,3 +123,5 @@ export default function Login() {
     </>
   );
 }
+
+// register like signin in everything 
