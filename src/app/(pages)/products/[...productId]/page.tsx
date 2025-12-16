@@ -1,4 +1,3 @@
-
 import { ProductI } from "@/interfaces";
 import { Params } from "next/dist/server/request/params";
 import React from "react";
@@ -57,7 +56,7 @@ export default async function ProductDetails({ params }: { params: Params }) {
             </div>
           </CardContent>
 
-     <AddToCart productId={product.id} />
+          <AddToCart productId={product.id} />
         </div>
       </Card>
     </>

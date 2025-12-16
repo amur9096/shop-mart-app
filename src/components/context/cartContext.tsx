@@ -25,7 +25,7 @@ export default function cartContextProvider({
   const [isLoading, setIsLoading] = useState(false);
   async function getCart() {
     setIsLoading(true);
-    const res= await fetch('http://localhost:3000/api/get-cart')
+    const res = await fetch("http://localhost:3000/api/get-cart");
     const data: CartResponse = await res.json();
     setCartData(data);
     console.log(data);
@@ -37,7 +37,7 @@ export default function cartContextProvider({
   }, []);
   return (
     <cartContext.Provider
-      value={{ cartData, setCartData, isLoading, setIsLoading , getCart}}
+      value={{ cartData, setCartData, isLoading, setIsLoading, getCart }}
     >
       {children}
     </cartContext.Provider>
