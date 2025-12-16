@@ -10,6 +10,7 @@ import {
 import { CategoryI, ProductI } from "@/interfaces";
 import { Params } from "next/dist/server/request/params";
 import Image from "next/image";
+import Link from "next/link";
 
 export default async function CategoryDetails({ params }: { params: Params }) {
   const { categoryId } = await params;
@@ -32,37 +33,39 @@ export default async function CategoryDetails({ params }: { params: Params }) {
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
         {product.map((category) => (
           <div key={category.id}>
-            <Card>
-              <CardHeader>
-                <Image
-                  src={category.imageCover}
-                  alt=""
-                  width={300}
-                  height={300}
-                  className="w-full"
-                />
-                <CardTitle>{category.title}</CardTitle>
-                <CardDescription>{category.category.name}</CardDescription>
-                <CardDescription>{category.brand.name}</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="flex items-center">
-                  <MyStarIcon />
-                  <MyStarIcon />
-                  <MyStarIcon />
-                  <MyStarIcon />
+            <Link href={`/products/${category.id}`}>
+              <Card className="hover:drop-shadow-2xl hover:scale-3d hover:duration-300 hover:cursor-pointer">
+                <CardHeader>
+                  <Image
+                    src={category.imageCover}
+                    alt=""
+                    width={300}
+                    height={300}
+                    className="w-full"
+                  />
+                  <CardTitle>{category.title}</CardTitle>
+                  <CardDescription>{category.category.name}</CardDescription>
+                  <CardDescription>{category.brand.name}</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="flex items-center">
+                    <MyStarIcon />
+                    <MyStarIcon />
+                    <MyStarIcon />
+                    <MyStarIcon />
 
-                  <p>{category.ratingsQuantity}</p>
-                </div>
-                <p className="mt-2">
-                  Price:
-                  <span className="font-semibold">{category.price} </span>
-                  EGP
-                </p>
-              </CardContent>
+                    <p>{category.ratingsQuantity}</p>
+                  </div>
+                  <p className="mt-2">
+                    Price:
+                    <span className="font-semibold">{category.price} </span>
+                    EGP
+                  </p>
+                </CardContent>
 
-              <AddToCart productId={category.id} />
-            </Card>
+                <AddToCart productId={category.id} />
+              </Card>
+            </Link>
           </div>
         ))}
       </div>

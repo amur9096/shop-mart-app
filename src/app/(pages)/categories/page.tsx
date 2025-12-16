@@ -1,11 +1,6 @@
 import { CategoryI } from "@/interfaces";
 import React from "react";
-import {
-  Card,
-
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardHeader, CardTitle } from "@/components/ui/card";
 import Image from "next/image";
 import Link from "next/link";
 
