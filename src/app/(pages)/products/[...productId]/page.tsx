@@ -19,7 +19,7 @@ import Slider from "@/components/productSlider/Slider";
 import AddToCart from "@/components/addToCart/page";
 
 export default async function ProductDetails({ params }: { params: Params }) {
-  let { productId } = await params;
+  const { productId } = await params;
   const res = await fetch(
     "https://ecommerce.routemisr.com/api/v1/products/" + productId
   );

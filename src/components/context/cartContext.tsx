@@ -16,7 +16,7 @@ export const cartContext = createContext<{
   getCart: () => {},
 });
 
-export default function cartContextProvider({
+export default function CartContextProvider({
   children,
 }: {
   children: React.ReactNode;

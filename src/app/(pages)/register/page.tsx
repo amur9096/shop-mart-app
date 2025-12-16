@@ -3,7 +3,6 @@ import React, { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -15,10 +14,9 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
-
 import { Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
-
+import Link from "next/link";
 const formSchema = z
   .object({
     name: z
@@ -45,7 +43,6 @@ const formSchema = z
         /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/,
         "password must contain at least one uppercase letter, one lowercase letter, one number and one special character"
       ),
-
     confirmPassword: z.string().nonempty("confirm password is required"),
     Phone: z.string().nonempty("phone number is required"),
   })
@@ -79,18 +76,15 @@ export default function Register() {
       body: JSON.stringify(values),
     });
     const data = await res.json();
-
     if (res.ok && data.message == "success") {
       router.push("/login");
       return;
     }
-
     if (res.status === 409) {
       form.setError("email", { type: "manual", message: data.message });
       router.push("/login?reason=exists");
       return;
     }
-
     setIsLoading(false);
   }
 
@@ -109,7 +103,7 @@ export default function Register() {
                   <FormItem>
                     <FormLabel>Name</FormLabel>
                     <FormControl>
-                      <Input placeholder="Amr" {...field} />
+                      <Input placeholder="Your Name..." {...field} />
                     </FormControl>
 
                     <FormMessage />
@@ -196,6 +190,14 @@ export default function Register() {
             </form>
           </Form>
         </Card>
+        <div className="mt-4">
+          <p>
+            Already have an account?
+            <Link href="/login" className="underline text-blue-600">
+              Login
+            </Link>
+          </p>
+        </div>
       </div>
     </>
   );

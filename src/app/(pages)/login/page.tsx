@@ -18,6 +18,7 @@ import { Card } from "@/components/ui/card";
 import { signIn } from "next-auth/react";
 import { useSearchParams } from "next/navigation";
 import { Loader2 } from "lucide-react";
+import Link from "next/link";
 
 const formSchema = z.object({
   email: z
@@ -67,7 +68,7 @@ export default function Login() {
   return (
     <>
       <div className="flex flex-col justify-center items-center min-h-[75vh] ">
-        <h1 className="text-4xl font-bold mb-8">Login Page</h1>
+        <h1 className="text-4xl font-bold mb-8">Welcome Back !</h1>
 
         <Card className="p-5 w-full max-w-md">
           <Form {...form}>
@@ -119,9 +120,14 @@ export default function Login() {
             </form>
           </Form>
         </Card>
+        <h3 className="mt-4">
+          if you don't have an account, please
+          <Link href={"/register"} className="text-blue-600 underline ">SignUp</Link>
+          Now
+        </h3>
       </div>
     </>
   );
 }
 
-// register like signin in everything 
+// register like signin in everything
