@@ -1,20 +1,15 @@
 import { ProductI } from "@/interfaces";
 import { Params } from "next/dist/server/request/params";
 import React from "react";
-
 import {
   Card,
-  CardAction,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
 import Image from "next/image";
 import MyStarIcon from "@/components/myStar/myStarIcon";
-import { Button } from "@/components/ui/button";
-import { HeartIcon } from "lucide-react";
 import Slider from "@/components/productSlider/Slider";
 import AddToCart from "@/components/addToCart/page";
 
