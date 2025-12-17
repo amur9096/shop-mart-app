@@ -18,7 +18,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import Link from "next/link";
-import { Loader, Loader2, ShoppingCart, UserIcon } from "lucide-react";
+import { Heart, Loader, Loader2, ShoppingCart, UserIcon } from "lucide-react";
 import { cartContext } from "../context/cartContext";
 import { signOut, useSession } from "next-auth/react";
 
@@ -63,11 +63,18 @@ export default function Navbar() {
             </NavigationMenu>
 
             <div className="flex items-center gap-4 ">
-
               <DropdownMenu>
                 <DropdownMenuTrigger>
                   <UserIcon />
                 </DropdownMenuTrigger>
+
+                {session.status == "authenticated" && (
+                  <Link href="/wishlist">
+                    <DropdownMenuLabel>
+                      <Heart />
+                    </DropdownMenuLabel>
+                  </Link>
+                )}
 
                 <DropdownMenuContent>
                   <DropdownMenuLabel>My Account</DropdownMenuLabel>
@@ -79,9 +86,18 @@ export default function Navbar() {
                       <Link href="/profile ">
                         <DropdownMenuItem>Profile </DropdownMenuItem>
                       </Link>
-                      <DropdownMenuItem onClick={()=> signOut({
-                        callbackUrl:'/'
-                      }) }>Logout</DropdownMenuItem>
+                      <Link href="/allorders ">
+                        <DropdownMenuItem>Your Orders </DropdownMenuItem>
+                      </Link>
+                      <DropdownMenuItem
+                        onClick={() =>
+                          signOut({
+                            callbackUrl: "/",
+                          })
+                        }
+                      >
+                        Logout
+                      </DropdownMenuItem>
                     </>
                   ) : (
                     <>
