@@ -1,21 +1,16 @@
 import { ProductI } from "@/interfaces";
-import React from "react";
-
 import {
   Card,
-  CardAction,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
 import Image from "next/image";
 import MyStarIcon from "@/components/myStar/myStarIcon";
-import { Button } from "@/components/ui/button";
-import { HeartIcon } from "lucide-react";
 import Link from "next/link";
 import AddToCart from "@/components/addToCart/page";
+import AddToWishList from "@/components/addToWishList/AddtoWishList";
 
 export default async function Products() {
   const res = await fetch("https://ecommerce.routemisr.com/api/v1/products");

@@ -8,6 +8,7 @@ import { cartContext } from "../context/cartContext";
 import { addToCartAction } from "@/app/(pages)/products/_action/addToCart.action";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import AddToWishList from "../addToWishList/AddtoWishList";
 
 
 
@@ -37,7 +38,7 @@ export default function AddToCart({ productId }: { productId: string }) {
         <Button className="grow" onClick={addProduct} disabled={isLoading}>
           {isLoading ? <Loader className="animate-spin" /> : "Add To Cart"}
         </Button>
-        <HeartIcon />
+       <AddToWishList productId={productId} />
       </CardFooter>
     </>
   );
