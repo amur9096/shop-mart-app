@@ -10,7 +10,7 @@ import Image from "next/image";
 import MyStarIcon from "@/components/myStar/myStarIcon";
 import Link from "next/link";
 import AddToCart from "@/components/addToCart/page";
-import AddToWishList from "@/components/addToWishList/AddtoWishList";
+
 
 export default async function Products() {
   const res = await fetch("https://ecommerce.routemisr.com/api/v1/products");

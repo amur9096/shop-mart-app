@@ -247,7 +247,9 @@ export default function Cart() {
             </div>
           </div>
         </section>
-      ) : (
+      ) : 
+      
+      (
         <div className="flex flex-col items-center justify-center h-screen gap-4">
           <h2 className="text-2xl font-semibold text-slate-900">
             Your cart is empty

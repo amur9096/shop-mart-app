@@ -11,6 +11,7 @@ export async function GET() {
             token,
         "Content-Type": "application/json",
       },
+      cache: "no-store",
     })
     const data : WishListResponse = await res.json();
     return NextResponse.json(data);

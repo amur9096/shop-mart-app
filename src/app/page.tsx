@@ -1,6 +1,7 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import { useSession } from "next-auth/react";
+import Link from "next/link";
 
 export default function Home() {
   const session = useSession();
@@ -23,15 +24,21 @@ export default function Home() {
             service.
           </p>
           <div className="mt-2 flex flex-col items-center gap-3 sm:flex-row sm:gap-4">
-            <Button className="h-12 rounded-md border border-slate-900 bg-slate-900 px-7 text-base font-semibold text-white transition-colors hover:bg-slate-800">
-              Shop Now
-            </Button>
-            <Button
-              variant="outline"
-              className="h-12 rounded-md border-2 border-slate-900 bg-white px-7 text-base font-semibold text-slate-900 transition-colors hover:bg-slate-100"
-            >
-              Browse Categories
-            </Button>
+            <Link href="/products">
+              <Button className="h-12 rounded-md border border-slate-900 bg-slate-900 px-7 text-base font-semibold text-white transition-colors hover:bg-slate-800">
+                Shop Now
+              </Button>
+            </Link>
+
+            <Link href="categories">
+              <Button
+                variant="outline"
+                className="h-12 rounded-md border-2 border-slate-900 bg-white px-7 text-base font-semibold text-slate-900 transition-colors hover:bg-slate-100"
+              >
+                Browse Categories
+              </Button>
+            </Link>
+
           </div>
         </div>
       </section>

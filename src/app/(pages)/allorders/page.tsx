@@ -19,15 +19,18 @@ import { AllOrderProductI, AllOrdersI, ProductI } from "@/interfaces";
 import { getUserToken } from "@/app/Helpers/getUserToken";
 import Image from "next/image";
 
-export default async function AllOrders() {
+export default async function AllOrders(userID: string) {
   const token = await getUserToken();
-  const res = await fetch("https://ecommerce.routemisr.com/api/v1/orders", {
-    method: "GET",
-    headers: {
-      token: token,
-      "Content-Type": "application/json",
-    },
-  });
+  const res = await fetch(
+    "https://ecommerce.routemisr.com/api/v1/orders" + userID,
+    {
+      method: "GET",
+      headers: {
+        token: token,
+        "Content-Type": "application/json",
+      },
+    }
+  );
   const { data: ordersDetails }: { data: AllOrdersI[] } = await res.json();
   console.log(ordersDetails);
 
@@ -39,7 +42,9 @@ export default async function AllOrders() {
         <div className="grid grid-cols-1 gap-6">
           <Card key={order._id} className="space-y-5 mb-5  drop-shadow-2xl">
             <CardHeader>
-              <CardTitle className="font-semibold text-2xl">Order Number #75389</CardTitle>
+              <CardTitle className="font-semibold text-2xl">
+                Order Number #75389
+              </CardTitle>
 
               <CardDescription>
                 Order Date: {new Date(order.createdAt).toLocaleString()}
@@ -72,7 +77,7 @@ export default async function AllOrders() {
             </CardHeader>
 
             <CardContent>
-              <h3 className="font-semibold text-2xl" > Shipping Address</h3>
+              <h3 className="font-semibold text-2xl"> Shipping Address</h3>
               <div className="flex gap-2 ">
                 <p>{order.shippingAddress?.details ?? "No Address"}</p> ,
                 <p>{order.shippingAddress?.city ?? "No City"}</p>
