@@ -3,42 +3,49 @@ import { Button } from "@/components/ui/button";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 
-export default function Home() {
+export default function HomePage() {
   const session = useSession();
 
   return (
     <>
-      <section className="flex min-h-[70vh] items-center justify-center bg-white">
-        <div className="mx-auto flex max-w-4xl flex-col items-center gap-6 px-6 text-center sm:px-8">
-          <p className="text-lg font-semibold text-slate-800">
-            {session.status === "authenticated"
-              ? `Welcome back, ${session.data.user?.name}!`
+      <section className="relative overflow-hidden py-20 sm:py-24">
+        <div className="absolute inset-0 -z-10 bg-linear-to-b from-primary/10 via-background to-background" />
+
+        <div className="absolute -top-32 left-1/2 -z-10 h-72 w-72 -translate-x-1/2 rounded-full bg-primary/20 blur-3xl" />
+        <div className="absolute bottom-0 right-0 -z-10 h-72 w-72 rounded-full bg-purple-500/10 blur-3xl" />
+
+        <div className="container mx-auto max-w-4xl px-4 text-center">
+          <p className="text-sm sm:text-base font-semibold text-muted-foreground">
+            {session?.status === "authenticated"
+              ? `Welcome back, ${session?.data?.user?.name}!`
               : "Welcome to our store!"}
           </p>
-          <h1 className="text-4xl font-extrabold tracking-tight text-slate-900 sm:text-5xl lg:text-6xl">
-            Welcome to ShopMart
+
+          <h1 className="mt-4 text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight">
+            Welcome to <span className="text-primary">ShopMart</span>
           </h1>
-          <p className="max-w-3xl text-lg leading-relaxed text-slate-600 sm:text-xl">
+
+          <p className="mt-6 max-w-3xl mx-auto text-base sm:text-lg leading-relaxed text-muted-foreground">
             Discover the latest technology, fashion, and lifestyle products.
             Quality guaranteed with fast shipping and excellent customer
             service.
           </p>
-          <div className="mt-2 flex flex-col items-center gap-3 sm:flex-row sm:gap-4">
+
+          <div className="mt-10 flex flex-col sm:flex-row justify-center items-center gap-4">
             <Link href="/products">
-              <Button className="h-12 rounded-md border border-slate-900 bg-slate-900 px-7 text-base font-semibold text-white transition-colors hover:bg-slate-800">
+              <Button className="h-12 rounded-xl px-7 text-base font-semibold shadow hover:opacity-90 transition">
                 Shop Now
               </Button>
             </Link>
 
-            <Link href="categories">
+            <Link href="/categories">
               <Button
                 variant="outline"
-                className="h-12 rounded-md border-2 border-slate-900 bg-white px-7 text-base font-semibold text-slate-900 transition-colors hover:bg-slate-100"
+                className="h-12 rounded-xl px-7 text-base font-semibold hover:bg-muted transition"
               >
                 Browse Categories
               </Button>
             </Link>
-
           </div>
         </div>
       </section>

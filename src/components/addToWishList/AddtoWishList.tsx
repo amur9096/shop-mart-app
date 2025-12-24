@@ -10,20 +10,27 @@ import { CardFooter } from "../ui/card";
 import { useRouter } from "next/navigation";
 
 export default function AddToWishList({ productId }: { productId: string }) {
-  const {  setWishListData } = useContext(wishListContext);
+  const { setWishListData, getWishList } = useContext(wishListContext);
   const [isLoading, setIsLoading] = useState(false);
   const session = useSession();
   const router = useRouter();
 
   async function addProduct() {
-    if (session.status == "authenticated") {
+    if (session.status === "authenticated") {
       setIsLoading(true);
+
       const data = await addToWishListAction(productId);
-      data.status === "success" &&
-        toast.success("Product added to wishlist successfully");
-      console.log(data);
+
+      if (data.status === "success") {
+        toast.success("Product added to wishlist successfully ✅");
+
+
+        await getWishList();
+      } else {
+        toast.error(data.message || "Something went wrong");
+      }
+
       setIsLoading(false);
-      setWishListData(data);
     } else {
       toast.error("You must be logged in to add products to the wishlist");
       router.push("/login");

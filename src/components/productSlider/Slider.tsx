@@ -9,7 +9,7 @@ export default function Slider({images, altContent }: {images: string[], altCont
             <Carousel
               plugins={[
                 Autoplay ({
-                  delay: 1000,
+                  delay: 2000,
                 }),
               ]}
               opts={{

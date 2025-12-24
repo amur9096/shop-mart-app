@@ -17,7 +17,7 @@ import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
 import { signIn } from "next-auth/react";
 import { useSearchParams } from "next/navigation";
-import { Loader2 } from "lucide-react";
+import { Loader2, Eye, EyeOff } from "lucide-react";
 import Link from "next/link";
 
 const formSchema = z.object({
@@ -44,6 +44,7 @@ export default function Login() {
   const [isLoading, setIsLoading] = useState(false);
   const searchParams = useSearchParams();
   console.log(searchParams.get("error"));
+  const [showPassword, setShowPassword] = useState(false);
 
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
@@ -64,6 +65,37 @@ export default function Login() {
     setIsLoading(false);
     console.log(res);
   }
+
+  const PasswordInput = ({
+    field,
+    placeholder,
+    isShown,
+    toggle,
+  }: {
+    field: any;
+    placeholder: string;
+    isShown: boolean;
+    toggle: () => void;
+  }) => (
+    <div className="relative">
+      <Input
+        type={isShown ? "text" : "password"}
+        placeholder={placeholder}
+        {...field}
+        className="pr-10"
+      />
+
+      {field.value?.length > 0 && (
+        <button
+          type="button"
+          onClick={toggle}
+          className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-black"
+        >
+          {isShown ? <EyeOff size={18} /> : <Eye size={18} />}
+        </button>
+      )}
+    </div>
+  );
 
   return (
     <>
@@ -95,10 +127,11 @@ export default function Login() {
                   <FormItem>
                     <FormLabel>Password</FormLabel>
                     <FormControl>
-                      <Input
-                        type="password"
+                      <PasswordInput
+                        field={field}
                         placeholder="Password"
-                        {...field}
+                        isShown={showPassword}
+                        toggle={() => setShowPassword((prev) => !prev)}
                       />
                     </FormControl>
 
@@ -111,6 +144,12 @@ export default function Login() {
                 {isLoading && <Loader2 className="animate-spin" />}
                 Submit
               </Button>
+              <Link
+                href="/forgot-password"
+                className="text-sm text-blue-600 underline block text-center"
+              >
+                Forgot your password?
+              </Link>
 
               {searchParams.get("error") && (
                 <p className="text-red-500 text-center">
@@ -122,12 +161,12 @@ export default function Login() {
         </Card>
         <h3 className="mt-4">
           if you don't have an account, please
-          <Link href={"/register"} className="text-blue-600 underline ">SignUp</Link>
+          <Link href={"/register"} className="text-blue-600 underline ">
+            SignUp
+          </Link>
           Now
         </h3>
       </div>
     </>
   );
 }
-
-// register like signin in everything

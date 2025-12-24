@@ -1,7 +1,7 @@
 import { CartItemI } from "./cartItem";
 
 import { UserI } from "./user";
-import { BrandI, ProductI } from "@/interfaces";
+import { ProductI } from "@/interfaces";
 
 export interface AllOrdersI {
   shippingAddress?: ShippingAddressI;

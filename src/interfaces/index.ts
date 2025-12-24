@@ -14,9 +14,10 @@ export * from "./login";
 
 export * from "./product";
 
-
 export * from "./subCategory";
 
 export * from "./user";
 
 export * from "./wishList";
+
+export * from "./address";

@@ -14,7 +14,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
-import { Loader2 } from "lucide-react";
+import { Loader2, Eye, EyeOff } from "lucide-react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 const formSchema = z
@@ -56,6 +56,10 @@ type FormValues = z.infer<typeof formSchema>;
 export default function Register() {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
+  const [show, setShow] = useState({
+    password: false,
+    confirmPassword: false,
+  });
 
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
@@ -87,6 +91,37 @@ export default function Register() {
     }
     setIsLoading(false);
   }
+
+  const PasswordInput = ({
+    field,
+    placeholder,
+    isShown,
+    toggle,
+  }: {
+    field: any;
+    placeholder: string;
+    isShown: boolean;
+    toggle: () => void;
+  }) => (
+    <div className="relative">
+      <Input
+        type={isShown ? "text" : "password"}
+        placeholder={placeholder}
+        {...field}
+        className="pr-10"
+      />
+
+      {field.value?.length > 0 && (
+        <button
+          type="button"
+          onClick={toggle}
+          className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-black"
+        >
+          {isShown ? <EyeOff size={18} /> : <Eye size={18} />}
+        </button>
+      )}
+    </div>
+  );
 
   return (
     <>
@@ -133,10 +168,16 @@ export default function Register() {
                   <FormItem>
                     <FormLabel>Password</FormLabel>
                     <FormControl>
-                      <Input
-                        type="password"
+                      <PasswordInput
+                        field={field}
                         placeholder="Password"
-                        {...field}
+                        isShown={show.password}
+                        toggle={() =>
+                          setShow((prev) => ({
+                            ...prev,
+                            password: !prev.password,
+                          }))
+                        }
                       />
                     </FormControl>
 
@@ -152,10 +193,16 @@ export default function Register() {
                   <FormItem>
                     <FormLabel>Confirm Password</FormLabel>
                     <FormControl>
-                      <Input
-                        type="password"
+                      <PasswordInput
+                        field={field}
                         placeholder="Confirm Password"
-                        {...field}
+                        isShown={show.confirmPassword}
+                        toggle={() =>
+                          setShow((prev) => ({
+                            ...prev,
+                            confirmPassword: !prev.confirmPassword,
+                          }))
+                        }
                       />
                     </FormControl>
 

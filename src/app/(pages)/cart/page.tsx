@@ -96,174 +96,203 @@ export default function Cart() {
       (typeof cartData?.data.products[0] == "string" && getCart()) ? (
         <Loading />
       ) : cartData?.numOfCartItems! > 0 ? (
-        <section className="bg-white">
+        <section className="bg-background text-foreground">
           <div className="container mx-auto px-4 py-10">
-            <h1 className="text-3xl font-bold tracking-tight text-slate-900">
-              Shopping Cart
-            </h1>
-            <p className="mt-1 text-sm text-slate-500">
-              {cartData?.numOfCartItems} items in your cart
-            </p>
+            <div className="rounded-3xl border border-border bg-card shadow-sm p-6 sm:p-8">
+              <h1 className="text-3xl font-bold tracking-tight">
+                Shopping Cart
+              </h1>
 
-            <div className="mt-6 grid grid-cols-1 gap-6 lg:grid-cols-3 lg:items-start">
-              <div className="lg:col-span-2 space-y-4">
-                {cartData?.data.products.map((item) => (
-                  <div
-                    key={item._id}
-                    className="flex flex-col gap-4 rounded-2xl border border-slate-200 bg-white p-5 shadow-[0_10px_30px_rgba(15,23,42,0.06)] sm:flex-row sm:items-center"
-                  >
-                    <div className="flex items-center gap-4 sm:w-1/5">
-                      <Image
-                        src={item.product.imageCover}
-                        alt={item.product.title}
-                        width={110}
-                        height={110}
-                        className="h-24 w-24 rounded-xl object-cover"
-                      />
-                    </div>
+              <p className="mt-1 text-sm text-muted-foreground">
+                {cartData?.numOfCartItems} items in your cart
+              </p>
 
-                    <div className="flex flex-1 flex-col gap-2">
-                      <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between">
-                        <div>
-                          <h3 className="text-lg font-semibold text-slate-900">
-                            {item.product.title}
-                          </h3>
-                          <p className="text-sm text-slate-500">
-                            {item.product?.brand?.name ?? "Brand"} •{" "}
-                            {item.product?.category?.name ?? "Category"}
-                          </p>
-                        </div>
-                        <div className="text-right text-sm text-slate-600">
-                          <div className="text-lg font-semibold text-slate-900">
-                            EGP {item.price}
-                          </div>
-                          <span>each</span>
-                        </div>
-                      </div>
-
-                      <div className="mt-2 flex items-center justify-between">
-                        <div className="flex items-center gap-3">
-                          <button
-                            disabled={item.count == 1}
-                            aria-label="decrease"
-                            className="flex size-9 items-center justify-center rounded-full border border-slate-300 text-lg font-semibold text-slate-700 transition hover:bg-slate-50"
-                            onClick={() =>
-                              updateItemQuantity(
-                                item.product._id,
-                                item.count - 1
-                              )
-                            }
-                          >
-                            -
-                          </button>
-                          <span className="min-w-6 text-center text-base font-semibold text-slate-900">
-                            {updatingId == item.product._id ? (
-                              <Loader2 className=" animate-spin inline-block " />
-                            ) : (
-                              item.count
-                            )}
-                          </span>
-                          <button
-                            aria-label="increase"
-                            onClick={() =>
-                              updateItemQuantity(
-                                item.product._id,
-                                item.count + 1
-                              )
-                            }
-                            className="flex size-9 items-center justify-center rounded-full border border-slate-300 text-lg font-semibold text-slate-700 transition hover:bg-slate-50"
-                          >
-                            +
-                          </button>
-                        </div>
-
-                        <button
-                          onClick={() => removeCartItem(item.product._id)}
-                          className="text-sm font-medium text-red-500 transition hover:text-red-600 hover:underline cursor-pointer"
-                        >
-                          {removingId == item.product._id && (
-                            <Loader2 className=" animate-spin inline-block mr-1 " />
-                          )}
-                          Remove
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-
-              <div className="lg:col-span-1 lg:sticky lg:top-20">
-                <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-[0_12px_30px_rgba(15,23,42,0.06)]">
-                  <h2 className="text-lg font-semibold text-slate-900">
-                    Order Summary
-                  </h2>
-                  <div className="mt-4 space-y-3 text-sm text-slate-600">
-                    <div className="flex items-center justify-between">
-                      <span className="text-slate-500">
-                        Subtotal ({cartData?.numOfCartItems} items)
-                      </span>
-                      <span className="font-semibold text-slate-900">
-                        EGP {cartData?.data.totalCartPrice}
-                      </span>
-                    </div>
-                    <div className="flex items-center justify-between">
-                      <span className="text-slate-500">Shipping</span>
-                      <span className="font-semibold text-green-600">Free</span>
-                    </div>
-                    <div className="border-t border-slate-200 pt-3 text-base font-semibold text-slate-900">
-                      <div className="flex items-center justify-between">
-                        <span>Total</span>
-                        <span>{cartData?.data.totalCartPrice}</span>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="mt-5 space-y-3">
-                    <Button
-                      variant="outline"
-                      className="h-11 w-full rounded-lg border-2 border-slate-300 bg-white text-sm font-semibold text-slate-800 hover:bg-slate-50"
+              <div className="mt-8 grid grid-cols-1 gap-8 lg:grid-cols-3 lg:items-start">
+                <div className="lg:col-span-2 space-y-5">
+                  {cartData?.data.products.map((item) => (
+                    <div
+                      key={item._id}
+                      className="flex flex-col gap-4 rounded-2xl border border-border bg-background/40 p-5 transition hover:shadow-md sm:flex-row sm:items-center"
                     >
-                      Continue Shopping
-                    </Button>
-                    <CheckOut cartId={cartData?.cartId!} />
-                  </div>
+                      <div className="flex items-center gap-4 sm:w-1/5">
+                        <Image
+                          src={item?.product?.imageCover}
+                          alt={item?.product?.title}
+                          width={110}
+                          height={110}
+                          className="h-24 w-24 rounded-xl object-cover"
+                        />
+                      </div>
+
+                      <div className="flex flex-1 flex-col gap-2">
+                        <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between">
+                          <div>
+                            <h3 className="text-lg font-semibold">
+                              {item?.product.title}
+                            </h3>
+                            <p className="text-sm text-muted-foreground">
+                              {item?.product?.brand?.name ?? "Brand"} •{" "}
+                              {item?.product?.category?.name ?? "Category"}
+                            </p>
+                          </div>
+
+                          <div className="text-right text-sm text-muted-foreground">
+                            <div className="text-lg font-semibold text-foreground">
+                              {item?.price} EGP
+                            </div>
+                            <span>each</span>
+                          </div>
+                        </div>
+
+                        <div className="mt-3 flex items-center justify-between">
+                          <div className="flex items-center gap-3">
+                            <button
+                              disabled={item?.count == 1}
+                              aria-label="decrease"
+                              className="flex size-9 items-center justify-center rounded-full border border-border text-lg font-semibold text-foreground transition hover:bg-muted disabled:opacity-50"
+                              onClick={() =>
+                                updateItemQuantity(
+                                  item.product._id,
+                                  item.count - 1
+                                )
+                              }
+                            >
+                              -
+                            </button>
+
+                            <span className="min-w-6 text-center text-base font-semibold">
+                              {updatingId == item.product._id ? (
+                                <Loader2 className="animate-spin inline-block" />
+                              ) : (
+                                item.count
+                              )}
+                            </span>
+
+                            <button
+                              aria-label="increase"
+                              onClick={() =>
+                                updateItemQuantity(
+                                  item.product._id,
+                                  item.count + 1
+                                )
+                              }
+                              className="flex size-9 items-center justify-center rounded-full border border-border text-lg font-semibold text-foreground transition hover:bg-muted"
+                            >
+                              +
+                            </button>
+                          </div>
+
+                          <button
+                            onClick={() => removeCartItem(item.product._id)}
+                            className="text-sm font-medium text-red-500 transition hover:text-red-600 hover:underline cursor-pointer"
+                          >
+                            {removingId == item.product._id && (
+                              <Loader2 className="animate-spin inline-block mr-1" />
+                            )}
+                            Remove
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
                 </div>
 
-                <div className="mt-4 flex justify-end">
-                  <Button
-                    variant="outline"
-                    onClick={clearCart}
-                    className="flex items-center gap-2 rounded-full border-2 border-red-200 bg-white px-4 py-2 text-sm font-semibold text-red-500 hover:bg-red-50"
-                  >
-                    {isClearing ? (
-                      <Loader2 className=" animate-spin inline-block mr-1 " />
-                    ) : (
-                      <Trash2 className="size-4" />
-                    )}
-                    clear cart
-                  </Button>
+                <div className="lg:col-span-1 lg:sticky lg:top-20">
+                  <div className="rounded-2xl border border-border bg-background/40 p-6 shadow-sm">
+                    <h2 className="text-lg font-semibold">Order Summary</h2>
+
+                    <div className="mt-4 space-y-3 text-sm text-muted-foreground">
+                      <div className="flex items-center justify-between">
+                        <span>Subtotal ({cartData?.numOfCartItems} items)</span>
+                        <span className="font-semibold text-foreground">
+                          EGP {cartData?.data.totalCartPrice}
+                        </span>
+                      </div>
+
+                      <div className="flex items-center justify-between">
+                        <span>Shipping</span>
+                        <span className="font-semibold text-green-500">
+                          Free
+                        </span>
+                      </div>
+
+                      <div className="border-t border-border pt-3 text-base font-semibold text-foreground">
+                        <div className="flex items-center justify-between">
+                          <span>Total</span>
+                          <span>{cartData?.data.totalCartPrice}</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="my-6 space-y-5">
+                      <Link href="/products">
+                        <Button
+                          variant="outline"
+                          className="h-11 w-full rounded-xl font-semibold"
+                        >
+                          Continue Shopping
+                        </Button>
+                      </Link>
+
+                      <CheckOut cartId={cartData?.cartId!} />
+                    </div>
+                  </div>
+
+                  <div className="mt-4 flex justify-end">
+                    <Button
+                      variant="outline"
+                      onClick={clearCart}
+                      className="flex items-center gap-2 rounded-full border border-red-500/30 text-red-500 hover:bg-red-500/10"
+                    >
+                      {isClearing ? (
+                        <Loader2 className="animate-spin inline-block mr-1" />
+                      ) : (
+                        <Trash2 className="size-4" />
+                      )}
+                      Clear cart
+                    </Button>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </section>
-      ) : 
-      
-      (
-        <div className="flex flex-col items-center justify-center h-screen gap-4">
-          <h2 className="text-2xl font-semibold text-slate-900">
-            Your cart is empty
-          </h2>
-          <p className="text-sm text-slate-500">
-            Looks like you haven't added anything to your cart yet.
-          </p>
+      ) : (
+        <section className="bg-background text-foreground">
+          <div className="container mx-auto px-4 py-12">
+            <div className="mx-auto max-w-xl rounded-3xl border-b border-border bg-card p-10 text-center shadow-sm">
+              <div className="mx-auto mb-6 flex h-14 w-14 items-center justify-center rounded-2xl bg-primary/10 text-primary">
+                📦
+              </div>
 
-          <Link href="/products">
-            <Button className="mt-2 rounded-lg bg-slate-900 px-5 text-sm font-semibold text-white hover:bg-slate-800">
-              Add Products To Cart
-            </Button>
-          </Link>
-        </div>
+              <h2 className="text-2xl font-bold tracking-tight">
+                No Items In Your Cart Yet...
+              </h2>
+
+              <p className="mt-2 text-sm text-muted-foreground leading-relaxed">
+                You haven't Put any Products yet. Start shopping now and your
+                Products will appear here.
+              </p>
+
+              <div className="mt-6 flex justify-center gap-3">
+                <Link href="/products">
+                  <Button className="rounded-xl px-6 font-semibold">
+                    Browse Products
+                  </Button>
+                </Link>
+
+                <Link href="/">
+                  <Button
+                    variant="outline"
+                    className="rounded-xl px-6 font-semibold"
+                  >
+                    Back Home
+                  </Button>
+                </Link>
+              </div>
+            </div>
+          </div>
+        </section>
       )}
     </>
   );
