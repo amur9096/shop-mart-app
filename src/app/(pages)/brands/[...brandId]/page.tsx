@@ -4,66 +4,98 @@ import {
   Card,
   CardContent,
   CardDescription,
+  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
 import { BrandI, ProductI } from "@/interfaces";
 import { Params } from "next/dist/server/request/params";
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
 
 export default async function BrandDetails({ params }: { params: Params }) {
   const { brandId } = await params;
+
   const [brandRes, productRes] = await Promise.all([
-    fetch(`https://ecommerce.routemisr.com/api/v1/brands/${brandId}`),
-    fetch(`https://ecommerce.routemisr.com/api/v1/products?brand=${brandId}`),
+    fetch(`https://ecommerce.routemisr.com/api/v1/brands/${brandId}`, {
+      cache: "no-store",
+    }),
+    fetch(`https://ecommerce.routemisr.com/api/v1/products?brand=${brandId}`, {
+      cache: "no-store",
+    }),
   ]);
+
   const { data: brand }: { data: BrandI } = await brandRes.json();
-  const { data: product }: { data: ProductI[] } = await productRes.json();
+  const { data: products }: { data: ProductI[] } = await productRes.json();
+
   return (
-    <>
-      <h1 className="text-3xl font-bold pt-10"> {brand.name}</h1>
-      <p className="text-gray-600 py-7">Products from this brand</p>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-        {product.map((brand) => (
-          <div key={brand.id}>
-            <Link href={`/products/${brand.id}`}>
-              <Card className="hover:drop-shadow-2xl hover:scale-3d hover:duration-300 hover:cursor-pointer">
-                <CardHeader>
+    <div className="py-10 space-y-6">
+      <div>
+        <h1 className="text-3xl font-bold">{brand.name}</h1>
+        <p className="text-muted-foreground mt-2">Products from this brand</p>
+      </div>
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        {products.map((product) => (
+          <Card
+            key={product.id}
+            className="flex flex-col h-full drop-shadow-lg hover:drop-shadow-2xl hover:-translate-y-1 transition-all duration-300"
+          >
+            <Link href={`/products/${product.id}`} className="flex-1">
+              <CardHeader className="space-y-3">
+                <div className="relative w-full aspect-4/5 bg-white rounded-xl overflow-hidden">
                   <Image
-                    src={brand.imageCover}
-                    alt={brand.title}
-                    width={300}
-                    height={300}
-                    className="w-full"
+                    src={product.imageCover}
+                    alt={product.title}
+                    fill
+                    className="object-contain p-4"
                   />
-                  <CardTitle>{brand.title}</CardTitle>
-                  <CardDescription>{brand.title}</CardDescription>
-                  <CardDescription>{brand.description}</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <div className="flex items-center">
-                    <MyStarIcon />
-                    <MyStarIcon />
-                    <MyStarIcon />
-                    <MyStarIcon />
+                </div>
 
-                    <p>{brand.ratingsQuantity}</p>
+                <CardTitle className="text-lg font-bold leading-snug">
+                  {product.title.split(" ", 2).join(" ")}
+                </CardTitle>
+
+                <div className="flex flex-wrap gap-2">
+                  <Badge variant="secondary">{product.category.name}</Badge>
+                  <Badge variant="secondary">{product.brand.name}</Badge>
+                </div>
+
+                <CardDescription className="line-clamp-2">
+                  {product.description}
+                </CardDescription>
+              </CardHeader>
+
+              <CardContent className="space-y-3">
+                <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-1">
+                    <MyStarIcon />
+                    <MyStarIcon />
+                    <MyStarIcon />
+                    <MyStarIcon />
+                    <MyStarIcon />
                   </div>
-                  <p className="mt-2">
-                    Price:
-                    <span className="font-semibold">{brand.price} </span>
-                    EGP
-                  </p>
-                </CardContent>
+                  <span className="text-sm text-muted-foreground">
+                    ({product.ratingsQuantity})
+                  </span>
+                </div>
 
-                <AddToCart productId={brand.id} />
-              </Card>
+                <p className="text-lg font-bold">
+                  {product.price}{" "}
+                  <span className="text-sm font-medium text-muted-foreground">
+                    EGP
+                  </span>
+                </p>
+              </CardContent>
             </Link>
-          </div>
+
+            <CardFooter className="pt-0">
+              <AddToCart productId={product.id} />
+            </CardFooter>
+          </Card>
         ))}
       </div>
-    </>
+    </div>
   );
 }

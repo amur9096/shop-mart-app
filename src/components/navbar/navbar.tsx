@@ -6,7 +6,6 @@ import { Heart, Loader2, ShoppingCart, UserIcon } from "lucide-react";
 import { ModeToggle } from "../theme/Theme";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-
 import {
   DropdownMenu,
   DropdownMenuContent,

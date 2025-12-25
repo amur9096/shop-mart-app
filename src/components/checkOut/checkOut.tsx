@@ -17,6 +17,8 @@ import { useRouter } from "next/navigation";
 import { getUserToken } from "@/app/Helpers/getUserToken";
 import { Loader2 } from "lucide-react";
 
+
+
 export default function CheckOut({ cartId }: { cartId: string }) {
   const detailsInput = useRef<HTMLInputElement>(null);
   const cityInput = useRef<HTMLInputElement>(null);
@@ -79,7 +81,6 @@ export default function CheckOut({ cartId }: { cartId: string }) {
 
       toast.success("Redirecting to payment...", { id: "visa" });
 
-      // ✅ Close Dialog before redirect
       setOpen(false);
 
       window.location.href = data.session.url;
@@ -90,7 +91,7 @@ export default function CheckOut({ cartId }: { cartId: string }) {
     }
   }
 
-  // ✅ Cash Order
+  //  Cash Order
   async function createCashOrder() {
     const token = await getUserToken();
     const shippingAddress = getShippingAddress();
@@ -120,9 +121,8 @@ export default function CheckOut({ cartId }: { cartId: string }) {
         return;
       }
 
-      toast.success("Order created successfully ✅", { id: "cash" });
+      toast.success("Order created successfully ", { id: "cash" });
 
-      // ✅ Close dialog automatically after success
       setOpen(false);
 
       router.push("/allorders");

@@ -34,7 +34,7 @@ export default function WishList() {
 
     if (data.status === "success") {
       toast.success("Removed from wishlist");
-      setWishListData(data);
+      await getWishList();
     } else {
       toast.error("Failed to remove");
     }

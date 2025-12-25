@@ -23,7 +23,6 @@ import { AllOrdersI } from "@/interfaces";
 export default async function AllOrders() {
   const session = await getServerSession(authOptions);
 
-  //if No order
   if (!session?.token) {
     return (
       <section className="bg-background text-foreground">
@@ -62,8 +61,6 @@ export default async function AllOrders() {
   const ordersDetails: AllOrdersI[] = Array.isArray(json)
     ? json
     : json?.data ?? [];
-
-  // console.log("✅ USER ID USED:", userId);
 
   if (ordersDetails.length === 0) {
     return (

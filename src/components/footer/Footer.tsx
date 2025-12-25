@@ -5,7 +5,6 @@ export default function Footer() {
     <footer className="border-t border-border bg-background mt-20">
       <div className="container mx-auto px-4 py-12">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10">
-          {/* Logo + About */}
           <div className="lg:col-span-1">
             <div className="flex items-center mb-4 gap-3">
               <div className="w-9 h-9 rounded-xl bg-primary text-primary-foreground flex items-center justify-center shadow">
@@ -27,7 +26,6 @@ export default function Footer() {
             </div>
           </div>
 
-          {/* SHOP */}
           <FooterCol
             title="SHOP"
             links={[
@@ -39,7 +37,6 @@ export default function Footer() {
             ]}
           />
 
-          {/* CUSTOMER SERVICE */}
           <FooterCol
             title="CUSTOMER SERVICE"
             links={[
@@ -51,7 +48,6 @@ export default function Footer() {
             ]}
           />
 
-          {/* ABOUT */}
           <FooterCol
             title="ABOUT"
             links={[
@@ -63,7 +59,6 @@ export default function Footer() {
             ]}
           />
 
-          {/* POLICIES */}
           <FooterCol
             title="POLICIES"
             links={[
@@ -98,13 +93,13 @@ function FooterCol({
     <div>
       <h3 className="text-foreground font-bold text-sm mb-4">{title}</h3>
       <ul className="space-y-2">
-        {links.map((l) => (
-          <li key={l.label}>
+        {links.map((link) => (
+          <li key={link.label}>
             <Link
-              href={l.href}
+              href={link.href}
               className="text-muted-foreground text-sm hover:text-foreground transition-colors"
             >
-              {l.label}
+              {link.label}
             </Link>
           </li>
         ))}

@@ -41,7 +41,6 @@ export default async function Profile() {
         </div>
       </div>
 
-      {/* Empty */}
       {details.length === 0 ? (
         <Card className="p-8 text-center">
           <CardTitle className="text-xl mb-2">No addresses found</CardTitle>

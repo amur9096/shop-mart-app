@@ -65,7 +65,7 @@ export default function UpdateProfileModal({ token, defaultValues }: Props) {
         return;
       }
 
-      toast.success("Profile updated successfully ✅");
+      toast.success("Profile updated successfully ");
       setOpen(false);
 
 

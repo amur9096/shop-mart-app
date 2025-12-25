@@ -65,7 +65,7 @@ export default function ForgotPassword() {
         return;
       }
 
-      toast.success("Reset code sent to your email ✅");
+      toast.success("Reset code sent to your email ");
 
 
       sessionStorage.setItem("resetEmail", values.email);

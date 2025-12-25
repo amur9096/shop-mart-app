@@ -1,61 +1,88 @@
 import { ProductI } from "@/interfaces";
 import { Params } from "next/dist/server/request/params";
-import React from "react";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
+  CardFooter,
 } from "@/components/ui/card";
-import Image from "next/image";
 import MyStarIcon from "@/components/myStar/myStarIcon";
 import Slider from "@/components/productSlider/Slider";
 import AddToCart from "@/components/addToCart/page";
+import { Badge } from "@/components/ui/badge";
 
 export default async function ProductDetails({ params }: { params: Params }) {
   const { productId } = await params;
+
   const res = await fetch(
-    "https://ecommerce.routemisr.com/api/v1/products/" + productId
+    "https://ecommerce.routemisr.com/api/v1/products/" + productId,
+    { cache: "no-store" }
   );
+
   const { data: product }: { data: ProductI } = await res.json();
 
   return (
-    <>
-      <div className="min-h-screen flex items-center justify-center">
-        <Card className="grid md:grid-cols-2 items-center w-3/4 mx-auto gap-4">
-          <div>
-            <Slider images={product.images} altContent={product.title} />
-          </div>
-          <div>
-            <CardHeader>
-              <CardDescription>{product.brand.name}</CardDescription>
+    <div className="container mx-auto py-10">
+      <Card className="grid grid-cols-1 md:grid-cols-2 gap-10 p-6 md:p-10 rounded-2xl shadow-lg">
+        <div className="w-full">
+          <Slider images={product.images} altContent={product.title} />
+        </div>
 
-              <CardTitle>{product.title}</CardTitle>
+        <div className="flex flex-col h-full">
+          <CardHeader className="space-y-4 p-0">
+            <div className="flex flex-wrap gap-2">
+              <Badge variant="secondary">{product.brand.name}</Badge>
+              <Badge variant="secondary">{product.category.name}</Badge>
+            </div>
 
-              <CardDescription>{product.description}</CardDescription>
-            </CardHeader>
+            <CardTitle className="text-3xl font-bold leading-tight">
+              {product.title}
+            </CardTitle>
 
-            <CardContent>
-              <CardDescription>{product.category.name}</CardDescription>
-              <div className="flex items-center gap-1 ">
+            <CardDescription className="text-base leading-relaxed">
+              {product.description}
+            </CardDescription>
+
+            <div className="flex items-center gap-2">
+              <div className="flex items-center gap-1">
                 <MyStarIcon />
                 <MyStarIcon />
                 <MyStarIcon />
                 <MyStarIcon />
                 <MyStarIcon />
-                <span className="ml-2">({product.ratingsQuantity})</span>
               </div>
-              <div className="mt-4 flex justify-between items-center">
-                <p className="font-bold">{product.price} EGP</p>
-                <p className="font-bold">Quantity: {product.quantity} </p>
-              </div>
-            </CardContent>
 
+              <span className="text-sm text-muted-foreground">
+                ({product.ratingsQuantity})
+              </span>
+            </div>
+          </CardHeader>
+
+          <CardContent className="p-0 mt-6 space-y-4">
+            <div className="flex items-center justify-between gap-4">
+              <p className="text-2xl font-bold">
+                {product.price}{" "}
+                <span className="text-sm font-medium text-muted-foreground">
+                  EGP
+                </span>
+              </p>
+
+              <p className="text-sm text-muted-foreground">
+                In Stock:{" "}
+                <span className="font-semibold text-foreground">
+                  {product.quantity}
+                </span>
+              </p>
+            </div>
+          </CardContent>
+
+          <CardFooter className="p-0 mt-auto pt-6">
             <AddToCart productId={product.id} />
-          </div>
-        </Card>
-      </div>
-    </>
+          </CardFooter>
+        </div>
+      </Card>
+    </div>
   );
 }

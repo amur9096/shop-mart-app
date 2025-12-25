@@ -129,9 +129,8 @@ export default function ResetPasswordModal({
         return;
       }
 
-      toast.success("Password reset successfully ✅");
+      toast.success("Password reset successfully ");
 
-      // ✅ clean storage
       sessionStorage.removeItem("resetEmail");
       sessionStorage.removeItem("resetVerified");
 

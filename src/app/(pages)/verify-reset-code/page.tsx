@@ -69,7 +69,7 @@ export default function VerifyResetCode() {
         return;
       }
 
-      toast.success("Code verified ✅");
+      toast.success("Code verified ");
 
       sessionStorage.setItem("resetVerified", "true");
 
@@ -138,7 +138,7 @@ export default function VerifyResetCode() {
       </Card>
 
       <p className="mt-4 text-sm text-muted-foreground">
-        Didn’t receive a code?{" "}
+        Didn't receive a code?{" "}
         <Link href="/forgot-password" className="text-blue-600 underline">
           Send again
         </Link>

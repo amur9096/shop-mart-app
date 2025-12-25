@@ -22,7 +22,7 @@ export default function AddToWishList({ productId }: { productId: string }) {
       const data = await addToWishListAction(productId);
 
       if (data.status === "success") {
-        toast.success("Product added to wishlist successfully ✅");
+        toast.success("Product added to wishlist successfully ");
 
 
         await getWishList();

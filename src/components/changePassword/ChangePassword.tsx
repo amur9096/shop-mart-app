@@ -165,7 +165,6 @@ export default function ChangePasswordModal({ token }: Props) {
             onSubmit={form.handleSubmit(onSubmit)}
             className="space-y-6 mt-4"
           >
-            {/* Current Password */}
             <FormField
               control={form.control}
               name="currentPassword"
@@ -187,7 +186,6 @@ export default function ChangePasswordModal({ token }: Props) {
               )}
             />
 
-            {/* New Password */}
             <FormField
               control={form.control}
               name="password"
@@ -209,7 +207,6 @@ export default function ChangePasswordModal({ token }: Props) {
               )}
             />
 
-            {/* Confirm Password */}
             <FormField
               control={form.control}
               name="rePassword"

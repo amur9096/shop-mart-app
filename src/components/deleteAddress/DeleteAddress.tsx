@@ -30,7 +30,6 @@ export default function DeleteAddressBtn({ id, token }: Props) {
     try {
       setLoading(true);
 
-      // ✅ Toast Loading
       const toastId = toast.loading("Removing address...");
 
       const res = await fetch(
@@ -50,7 +49,7 @@ export default function DeleteAddressBtn({ id, token }: Props) {
       }
 
       toast.dismiss(toastId);
-      toast.success("Address removed successfully ✅");
+      toast.success("Address removed successfully ");
 
       setOpen(false);
       router.refresh();

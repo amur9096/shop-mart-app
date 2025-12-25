@@ -14,13 +14,13 @@ import AddToWishList from "../addToWishList/AddtoWishList";
 type AddToCartProps = {
   productId: string;
   hideWishListButton?: boolean;
-  variant?: "card" | "inline"; // ✅ مهم جدًا
+  variant?: "card" | "inline";
 };
 
 export default function AddToCart({
   productId,
   hideWishListButton = false,
-  variant = "card", // ✅ default: نفس شكل Products
+  variant = "card",
 }: AddToCartProps) {
   const { setCartData } = useContext(cartContext);
   const [isLoading, setIsLoading] = useState(false);
@@ -45,7 +45,6 @@ export default function AddToCart({
     }
   }
 
-  // ✅ Layout for Wishlist / pages not using CardFooter
   if (variant === "inline") {
     return (
       <div className="flex items-center gap-2">
@@ -62,7 +61,6 @@ export default function AddToCart({
     );
   }
 
-  // ✅ Default layout for Products page (keeps old UI)
   return (
     <CardFooter className="gap-2">
       <Button className="grow" onClick={addProduct} disabled={isLoading}>
