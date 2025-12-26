@@ -24,6 +24,3 @@ export interface Item {
   product: ProductI;
   price: number;
 }
-
-
-

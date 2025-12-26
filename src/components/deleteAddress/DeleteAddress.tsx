@@ -49,7 +49,7 @@ export default function DeleteAddressBtn({ id, token }: Props) {
       }
 
       toast.dismiss(toastId);
-      toast.success("Address removed successfully ");
+      toast.success("Address removed successfully");
 
       setOpen(false);
       router.refresh();
@@ -65,32 +65,37 @@ export default function DeleteAddressBtn({ id, token }: Props) {
       <AlertDialogTrigger asChild>
         <Button
           variant="destructive"
-          className="w-full py-2 text-sm font-semibold"
+          className="w-full py-2 text-sm font-semibold rounded-xl"
           disabled={loading}
         >
           Remove
         </Button>
       </AlertDialogTrigger>
 
-      <AlertDialogContent className="rounded-2xl">
-        <AlertDialogHeader>
-          <AlertDialogTitle className="text-xl font-bold">
+      <AlertDialogContent className="w-[92vw] max-w-md rounded-2xl p-6 sm:p-7">
+        <AlertDialogHeader className="space-y-2">
+          <AlertDialogTitle className="text-lg sm:text-xl font-bold">
             Delete Address?
           </AlertDialogTitle>
 
-          <AlertDialogDescription>
+          <AlertDialogDescription className="text-sm sm:text-base leading-relaxed">
             This action cannot be undone. This will permanently remove the
             address.
           </AlertDialogDescription>
         </AlertDialogHeader>
 
-        <AlertDialogFooter className="gap-2">
-          <AlertDialogCancel disabled={loading}>Cancel</AlertDialogCancel>
+        <AlertDialogFooter className="mt-4 flex flex-col-reverse sm:flex-row sm:justify-end gap-2">
+          <AlertDialogCancel
+            disabled={loading}
+            className="w-full sm:w-auto rounded-xl"
+          >
+            Cancel
+          </AlertDialogCancel>
 
           <AlertDialogAction
             onClick={handleDelete}
             disabled={loading}
-            className="bg-red-600 hover:bg-red-700"
+            className="w-full sm:w-auto rounded-xl bg-red-600 hover:bg-red-700"
           >
             {loading ? "Removing..." : "Yes, delete"}
           </AlertDialogAction>

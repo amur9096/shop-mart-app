@@ -24,24 +24,32 @@ export default async function ProductDetails({ params }: { params: Params }) {
   const { data: product }: { data: ProductI } = await res.json();
 
   return (
-    <div className="container mx-auto py-10">
-      <Card className="grid grid-cols-1 md:grid-cols-2 gap-10 p-6 md:p-10 rounded-2xl shadow-lg">
+    <div className="container mx-auto py-6 sm:py-10 px-4">
+      <Card className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-10 p-4 sm:p-6 md:p-10 rounded-2xl shadow-lg">
         <div className="w-full">
-          <Slider images={product.images} altContent={product.title} />
+          <div className="rounded-2xl overflow-hidden bg-white border">
+            <div className="h-80 sm:h-[420px] md:h-full">
+              <Slider images={product.images} altContent={product.title} />
+            </div>
+          </div>
         </div>
 
         <div className="flex flex-col h-full">
-          <CardHeader className="space-y-4 p-0">
+          <CardHeader className="space-y-3 p-0">
             <div className="flex flex-wrap gap-2">
-              <Badge variant="secondary">{product.brand.name}</Badge>
-              <Badge variant="secondary">{product.category.name}</Badge>
+              <Badge variant="secondary" className="text-xs px-3 py-1">
+                {product.brand.name}
+              </Badge>
+              <Badge variant="secondary" className="text-xs px-3 py-1">
+                {product.category.name}
+              </Badge>
             </div>
 
-            <CardTitle className="text-3xl font-bold leading-tight">
+            <CardTitle className="text-2xl sm:text-3xl font-bold leading-tight line-clamp-2">
               {product.title}
             </CardTitle>
 
-            <CardDescription className="text-base leading-relaxed">
+            <CardDescription className="text-sm sm:text-base leading-relaxed text-muted-foreground line-clamp-3 sm:line-clamp-none">
               {product.description}
             </CardDescription>
 
@@ -54,22 +62,22 @@ export default async function ProductDetails({ params }: { params: Params }) {
                 <MyStarIcon />
               </div>
 
-              <span className="text-sm text-muted-foreground">
+              <span className="text-xs sm:text-sm text-muted-foreground">
                 ({product.ratingsQuantity})
               </span>
             </div>
           </CardHeader>
 
-          <CardContent className="p-0 mt-6 space-y-4">
-            <div className="flex items-center justify-between gap-4">
-              <p className="text-2xl font-bold">
+          <CardContent className="p-0 mt-5 space-y-4">
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+              <p className="text-xl sm:text-2xl font-bold">
                 {product.price}{" "}
-                <span className="text-sm font-medium text-muted-foreground">
+                <span className="text-xs sm:text-sm font-medium text-muted-foreground">
                   EGP
                 </span>
               </p>
 
-              <p className="text-sm text-muted-foreground">
+              <p className="text-xs sm:text-sm text-muted-foreground">
                 In Stock:{" "}
                 <span className="font-semibold text-foreground">
                   {product.quantity}
@@ -78,8 +86,10 @@ export default async function ProductDetails({ params }: { params: Params }) {
             </div>
           </CardContent>
 
-          <CardFooter className="p-0 mt-auto pt-6">
-            <AddToCart productId={product.id} />
+          <CardFooter className="p-0 mt-6">
+            <div className="w-full">
+              <AddToCart productId={product.id} />
+            </div>
           </CardFooter>
         </div>
       </Card>

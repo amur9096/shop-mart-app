@@ -1,4 +1,3 @@
-import React from "react";
 import BrandCardSkeleton from "./BrandCardSkeleton";
 
 type BrandsGridSkeletonProps = {
@@ -11,7 +10,7 @@ export default function BrandsGridSkeleton({
   withHover = false,
 }: BrandsGridSkeletonProps) {
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+    <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
       {Array.from({ length: count }).map((_, i) => (
         <BrandCardSkeleton key={i} withHover={withHover} />
       ))}

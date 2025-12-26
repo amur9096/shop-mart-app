@@ -67,7 +67,6 @@ export default function ForgotPassword() {
 
       toast.success("Reset code sent to your email ");
 
-
       sessionStorage.setItem("resetEmail", values.email);
 
       router.push("/verify-reset-code");

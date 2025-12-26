@@ -1,5 +1,6 @@
 import { Skeleton } from "@/components/ui/skeleton";
 import BrandsGridSkeleton from "@/components/skeletons/BrandsGridSkeleton";
+import ProductsGridSkeleton from "@/components/skeletons/ProductsGridSkeleton";
 
 export default function LoadingBrands() {
   return (
@@ -9,7 +10,7 @@ export default function LoadingBrands() {
         <Skeleton className="h-4 w-[320px]" />
       </div>
 
-      <BrandsGridSkeleton count={12} />
+      <ProductsGridSkeleton count={6} />
     </div>
   );
 }

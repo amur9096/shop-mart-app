@@ -3,9 +3,9 @@ import MyStarIcon from "@/components/myStar/myStarIcon";
 import {
   Card,
   CardContent,
-  CardDescription,
   CardHeader,
   CardTitle,
+  CardFooter,
 } from "@/components/ui/card";
 import { CategoryI, ProductI } from "@/interfaces";
 import { Params } from "next/dist/server/request/params";
@@ -26,70 +26,86 @@ export default async function CategoryDetails({ params }: { params: Params }) {
   const { data: products }: { data: ProductI[] } = await prodRes.json();
 
   return (
-    <>
-      <h1 className="text-3xl font-bold pt-10">{category.name}</h1>
-      <p className="text-gray-600 py-7">Products in this category</p>
+    <div className="py-6 sm:py-10 space-y-6 px-4">
+      <div>
+        <h1 className="text-2xl sm:text-3xl font-bold">{category.name}</h1>
+        <p className="text-sm sm:text-base text-muted-foreground mt-2">
+          Products in this category
+        </p>
+      </div>
 
       {products.length === 0 ? (
-        <div className="rounded-2xl border border-dashed p-10 text-center space-y-3 bg-muted/30">
-          <h2 className="text-xl font-semibold">No products found</h2>
-          <p className="text-muted-foreground">
+        <div className="rounded-2xl border border-dashed p-8 sm:p-10 text-center space-y-3 bg-muted/30">
+          <h2 className="text-lg sm:text-xl font-semibold">No products found</h2>
+          <p className="text-sm sm:text-base text-muted-foreground">
             This category doesn't have any products yet.
           </p>
 
           <Link
             href="/products"
-            className="inline-block text-primary font-medium hover:underline"
+            className="inline-block text-primary text-sm sm:text-base font-medium hover:underline"
           >
             Browse all products from {category?.name}
           </Link>
         </div>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-          {products.map((productItem) => (
-            <div key={productItem.id}>
-              <Card className="hover:drop-shadow-2xl hover:scale-3d hover:duration-300 hover:cursor-pointer">
-                <Link href={`/products/${productItem.id}`}>
-                  <CardHeader>
-                    <Image
-                      src={productItem.imageCover}
-                      alt={productItem.title}
-                      width={300}
-                      height={300}
-                      className="w-full"
-                    />
-                    <CardTitle>{productItem.title}</CardTitle>
-                    <CardDescription>
-                      {productItem.category.name}
-                    </CardDescription>
-                    <CardDescription>{productItem.brand.name}</CardDescription>
+        <>
+          <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
+            {products.map((productItem) => (
+              <Card
+                key={productItem.id}
+                className="flex flex-col h-full drop-shadow-sm hover:drop-shadow-2xl hover:-translate-y-1 transition-all duration-300"
+              >
+                <Link href={`/products/${productItem.id}`} className="flex-1">
+                  <CardHeader className="space-y-2 p-3 sm:p-4">
+                    <div className="relative w-full aspect-3/4 sm:aspect-4/5 bg-white rounded-xl overflow-hidden">
+                      <Image
+                        src={productItem.imageCover}
+                        alt={productItem.title}
+                        fill
+                        className="object-contain p-3 sm:p-4"
+                      />
+                    </div>
+
+                    <CardTitle className="text-sm sm:text-lg font-bold line-clamp-2">
+                      {productItem.title}
+                    </CardTitle>
+
+                    <div className="flex flex-wrap gap-1 text-[10px] sm:text-xs text-muted-foreground">
+                      <span>{productItem.category.name}</span>
+                      <span>•</span>
+                      <span>{productItem.brand.name}</span>
+                    </div>
                   </CardHeader>
+
+                  <CardContent className="space-y-2 px-3 pb-3 sm:px-4 sm:pb-4">
+                    <div className="flex items-center gap-1 text-xs sm:text-sm text-muted-foreground">
+                      <MyStarIcon />
+                      <MyStarIcon />
+                      <MyStarIcon />
+                      <MyStarIcon />
+                      <span className="ml-1">{productItem.ratingsQuantity}</span>
+                    </div>
+
+                    <p className="text-base sm:text-lg font-bold">
+                      {productItem.price}{" "}
+                      <span className="text-xs sm:text-sm font-medium text-muted-foreground">
+                        EGP
+                      </span>
+                    </p>
+                  </CardContent>
                 </Link>
 
-                <CardContent>
-                  <div className="flex items-center gap-1">
-                    <MyStarIcon />
-                    <MyStarIcon />
-                    <MyStarIcon />
-                    <MyStarIcon />
-                    <p>{productItem.ratingsQuantity}</p>
-                  </div>
-
-                  <p className="mt-2">
-                    Price:
-                    <span className="font-semibold"> {productItem.price} </span>
-                    EGP
-                  </p>
-
-                  <div className="mt-4">
+                <CardFooter className="px-3 pb-3 sm:px-4 sm:pb-4 pt-0">
+                  <div className="w-full">
                     <AddToCart productId={productItem.id} />
                   </div>
-                </CardContent>
+                </CardFooter>
               </Card>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        </>
       )}
-    </>
+    </div>
   );
 }

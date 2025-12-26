@@ -4,7 +4,7 @@ import React, { useContext, useState } from "react";
 import Loading from "@/app/loading";
 import { wishListContext } from "@/components/context/wishListContext";
 import { Button } from "@/components/ui/button";
-import { Loader2, Trash2 } from "lucide-react";
+import { Loader2 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import toast from "react-hot-toast";
@@ -13,11 +13,9 @@ import { WishListResponse } from "@/interfaces";
 import AddToCart from "@/components/addToCart/page";
 
 export default function WishList() {
-  const { wishListData, isLoading, setWishListData, getWishList } =
-    useContext(wishListContext);
+  const { wishListData, isLoading, getWishList } = useContext(wishListContext);
 
   const [removingId, setRemovingId] = useState<string | null>(null);
-  const [isClearing, setIsClearing] = useState<string | boolean>(false);
 
   const items = wishListData?.data ?? [];
 
@@ -48,71 +46,73 @@ export default function WishList() {
         <Loading />
       ) : items.length > 0 ? (
         <section className="bg-background text-foreground">
-          <div className="container mx-auto px-4 py-10">
-            <div
-              className="rounded-2xl border border-border bg-background/40 p-6 transition hover:shadow-md
-"
-            >
-              <div className="flex items-start justify-between gap-4">
-                <div>
-                  <h1 className="text-3xl font-bold tracking-tight">
-                    Wishlist
-                  </h1>
-                  <p className="mt-1 text-sm text-muted-foreground">
-                    {items.length} items in your wishlist
-                  </p>
-                </div>
+          <div className="container mx-auto px-4 py-6 sm:py-10">
+            <div className="rounded-2xl border border-border bg-background/40 p-4 sm:p-6 transition hover:shadow-md">
+
+              <div>
+                <h1 className="text-2xl sm:text-3xl font-bold tracking-tight">
+                  Wishlist
+                </h1>
+                <p className="mt-1 text-xs sm:text-sm text-muted-foreground">
+                  {items.length} items in your wishlist
+                </p>
               </div>
 
-              <div className="mt-8 grid grid-cols-1 gap-8 lg:grid-cols-3 lg:items-start">
-                <div className="lg:col-span-2 space-y-5">
+              <div className="mt-6 grid grid-cols-1 gap-6 lg:grid-cols-3 lg:items-start">
+
+                <div className="lg:col-span-2 space-y-4 sm:space-y-5">
                   {items.map((product) => (
                     <div
                       key={product._id}
-                      className="flex flex-col gap-4 rounded-2xl border border-border bg-background/40 p-5 transition hover:shadow-md sm:flex-row sm:items-center"
+                      className="flex gap-4 rounded-2xl border border-border bg-background/40 p-4 sm:p-5 transition hover:shadow-md"
                     >
-                      <div className="flex items-center gap-4 sm:w-1/5">
+                      <div className="shrink-0">
                         <Image
                           src={product?.imageCover}
                           alt={product?.title ?? "Product"}
-                          width={110}
-                          height={110}
-                          className="h-24 w-24 rounded-xl object-cover"
+                          width={90}
+                          height={90}
+                          className="h-[90px] w-[90px] sm:h-24 sm:w-24 rounded-xl object-cover bg-white"
                         />
                       </div>
 
-                      <div className="flex flex-1 flex-col gap-2">
-                        <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between">
-                          <div>
+                      <div className="flex flex-1 flex-col justify-between">
+                        <div className="flex items-start justify-between gap-3">
+                          <div className="min-w-0">
                             <Link href={"/products/" + product._id}>
-                              <h3 className="text-lg font-semibold hover:underline">
+                              <h3 className="text-base sm:text-lg font-semibold hover:underline line-clamp-2">
                                 {product?.title}
                               </h3>
                             </Link>
 
-                            <p className="text-sm text-muted-foreground">
+                            <p className="text-xs sm:text-sm text-muted-foreground mt-1 line-clamp-1">
                               {product?.brand?.name ?? "Brand"} •{" "}
                               {product?.category?.name ?? "Category"}
                             </p>
                           </div>
 
-                          <div className="text-right text-sm text-muted-foreground">
-                            <div className="text-lg font-semibold text-foreground ">
-                              {product?.price} EGP
+                          <div className="text-right shrink-0">
+                            <div className="text-base sm:text-lg font-semibold text-foreground">
+                              {product?.price}{" "}
+                              <span className="text-xs text-muted-foreground">
+                                EGP
+                              </span>
                             </div>
                           </div>
                         </div>
 
-                        <div className="mt-3 flex items-center justify-between">
-                          <AddToCart
-                            productId={product._id}
-                            variant="inline"
-                            hideWishListButton
-                          />
+                        <div className="mt-3 flex items-center justify-between gap-3">
+                          <div className="flex-1">
+                            <AddToCart
+                              productId={product._id}
+                              variant="inline"
+                              hideWishListButton
+                            />
+                          </div>
 
                           <button
                             onClick={() => removeWishListItem(product._id)}
-                            className="text-sm font-medium text-red-500 transition hover:text-red-600 hover:underline disabled:opacity-50"
+                            className="text-xs sm:text-sm font-medium text-red-500 transition hover:text-red-600 hover:underline disabled:opacity-50 whitespace-nowrap"
                             disabled={removingId === product._id}
                           >
                             {removingId === product._id && (
@@ -127,17 +127,19 @@ export default function WishList() {
                 </div>
 
                 <div className="lg:col-span-1 lg:sticky lg:top-20">
-                  <div className="rounded-2xl border border-border bg-background/40 p-6 shadow-sm">
-                    <h2 className="text-lg font-semibold">Wishlist Summary</h2>
+                  <div className="rounded-2xl border border-border bg-background/40 p-4 sm:p-6 shadow-sm">
+                    <h2 className="text-base sm:text-lg font-semibold">
+                      Wishlist Summary
+                    </h2>
 
-                    <p className="mt-2 text-sm text-muted-foreground">
+                    <p className="mt-2 text-xs sm:text-sm text-muted-foreground">
                       Total items:{" "}
                       <span className="font-semibold text-foreground">
                         {items.length}
                       </span>
                     </p>
 
-                    <div className="mt-6">
+                    <div className="mt-5">
                       <Link href="/products">
                         <Button
                           variant="outline"
@@ -149,6 +151,7 @@ export default function WishList() {
                     </div>
                   </div>
                 </div>
+
               </div>
             </div>
           </div>

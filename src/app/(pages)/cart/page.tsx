@@ -145,11 +145,11 @@ export default function Cart() {
                             alt={item?.product?.title ?? "Product image"}
                             width={110}
                             height={110}
-                            className="h-24 w-24 rounded-xl object-cover"
+                            className="h-24 w-24 rounded-xl object-contain bg-white p-2 sm:h-32 sm:w-32"
                           />
                         ) : (
                           <div className="h-24 w-24 rounded-xl bg-muted flex items-center justify-center text-muted-foreground">
-                            No Image
+                            📷
                           </div>
                         )}
                       </div>

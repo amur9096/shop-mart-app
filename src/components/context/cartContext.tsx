@@ -24,7 +24,7 @@ export default function CartContextProvider({
   const [cartData, setCartData] = useState<CartResponse | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   async function getCart() {
-    // setIsLoading(true);
+    setIsLoading(true);
     const res = await fetch("http://localhost:3000/api/get-cart");
     const data: CartResponse = await res.json();
     setCartData(data);

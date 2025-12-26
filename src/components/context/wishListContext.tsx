@@ -21,7 +21,9 @@ export default function WishListContextProvider({
 }: {
   children: React.ReactNode;
 }) {
-  const [wishListData, setWishListData] = useState<WishListResponse | null>(null);
+  const [wishListData, setWishListData] = useState<WishListResponse | null>(
+    null
+  );
   const [isLoading, setIsLoading] = useState(false);
 
   async function getWishList() {
@@ -44,7 +46,9 @@ export default function WishListContextProvider({
   }, []);
 
   return (
-    <wishListContext.Provider value={{ wishListData, setWishListData, isLoading, getWishList }}>
+    <wishListContext.Provider
+      value={{ wishListData, setWishListData, isLoading, getWishList }}
+    >
       {children}
     </wishListContext.Provider>
   );

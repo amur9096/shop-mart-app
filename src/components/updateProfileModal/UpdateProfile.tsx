@@ -68,7 +68,6 @@ export default function UpdateProfileModal({ token, defaultValues }: Props) {
       toast.success("Profile updated successfully ");
       setOpen(false);
 
-
       router.refresh();
     } catch (error) {
       toast.error("Network error, try again");
@@ -129,7 +128,11 @@ export default function UpdateProfileModal({ token, defaultValues }: Props) {
           </div>
 
           <Button disabled={loading} className="w-full">
-            {loading ? <Loader2 className="animate-spin mt-2"/> : "Save Changes"}
+            {loading ? (
+              <Loader2 className="animate-spin mt-2" />
+            ) : (
+              "Save Changes"
+            )}
           </Button>
         </form>
       </DialogContent>
