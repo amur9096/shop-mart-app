@@ -59,7 +59,7 @@ export default function CheckOut({ cartId }: { cartId: string }) {
       toast.loading("Creating Visa session...", { id: "visa" });
 
       const res = await fetch(
-        `https://ecommerce.routemisr.com/api/v1/orders/checkout-session/${cartId}?url=http://localhost:3000`,
+        `https://ecommerce.routemisr.com/api/v1/orders/checkout-session/${cartId}?url=https://shop-mart-app-seven.vercel.app/`,
         {
           method: "POST",
           body: JSON.stringify(shippingAddress),
