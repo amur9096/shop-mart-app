@@ -1,4 +1,5 @@
 "use client";
+
 import { CartResponse } from "@/interfaces";
 import { createContext, useEffect, useState } from "react";
 
@@ -7,13 +8,13 @@ export const cartContext = createContext<{
   setCartData: (value: CartResponse | null) => void;
   isLoading: boolean;
   setIsLoading: (value: boolean) => void;
-  getCart: () => void;
+  getCart: () => Promise<void>;
 }>({
   cartData: null,
   setCartData: () => {},
   isLoading: false,
   setIsLoading: () => {},
-  getCart: () => {},
+  getCart: async () => {},
 });
 
 export default function CartContextProvider({
@@ -22,19 +23,32 @@ export default function CartContextProvider({
   children: React.ReactNode;
 }) {
   const [cartData, setCartData] = useState<CartResponse | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+
   async function getCart() {
     setIsLoading(true);
-    const res = await fetch("http://localhost:3000/api/get-cart");
-    const data: CartResponse = await res.json();
-    setCartData(data);
-    console.log(data);
 
-    setIsLoading(false);
+    try {
+      const res = await fetch("/api/get-cart", { cache: "no-store" });
+
+      if (!res.ok) {
+        setCartData(null);
+        return;
+      }
+
+      const data: CartResponse = await res.json();
+      setCartData(data);
+    } catch (err) {
+      setCartData(null);
+    } finally {
+      setIsLoading(false);
+    }
   }
+
   useEffect(() => {
     getCart();
   }, []);
+
   return (
     <cartContext.Provider
       value={{ cartData, setCartData, isLoading, setIsLoading, getCart }}
